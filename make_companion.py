@@ -645,6 +645,18 @@ template = """<!DOCTYPE html>
       color: #fbbf24;
     }
 
+    .coach-pill.c-b2 {
+      background: rgba(14, 165, 233, 0.22);
+      border: 1.5px solid #0ea5e9;
+      color: #38bdf8;
+    }
+
+    .coach-pill.c-tbd {
+      background: rgba(148, 163, 184, 0.2);
+      border: 1.5px solid #94a3b8;
+      color: #cbd5e1;
+    }
+
     .coach-pill.c-m2 {
       background: rgba(16, 185, 129, 0.22);
       border: 1.5px solid #10b981;
@@ -1076,9 +1088,9 @@ template = """<!DOCTYPE html>
       },
       'leg3': {
         title: 'Train 13010 / Doon Express',
-        coaches: ['1A First AC (4 Confirmed)', '3A Third AC (5 Waitlist: GNWL 72–76)'],
-        coachFilters: ['All', '1A', '3A'],
-        paxTotal: '4 Confirmed (1A) • 5 Waitlist (GNWL 72–76)'
+        coaches: ['1A (4 Confirmed)', 'B2 (8 Confirmed)', '3A (8 Waitlist: GNWL 52–76)', 'TBD (10 Guests)'],
+        coachFilters: ['All', '1A', 'B2', '3A', 'TBD'],
+        paxTotal: '12 Confirmed (1A: 4, B2: 8) • 8 Waitlist (3A) • 10 TBD'
       }
     };
 
@@ -1131,12 +1143,14 @@ template = """<!DOCTYPE html>
     function getCoachClass(coach) {
       const c = (coach || '').toUpperCase();
       if (c.includes('B1')) return 'c-b1';
+      if (c.includes('B2')) return 'c-b2';
       if (c.includes('M2')) return 'c-m2';
       if (c.includes('M3')) return 'c-m3';
       if (c.includes('C2')) return 'c-c2';
       if (c.includes('C3')) return 'c-c3';
       if (c.includes('1A')) return 'c-1a';
       if (c.includes('3A')) return 'c-3a';
+      if (c.includes('TBD')) return 'c-tbd';
       return 'c-b1';
     }
 
@@ -1240,6 +1254,12 @@ template = """<!DOCTYPE html>
                 <span class="status-badge-cnf">✅ CNF</span>
               </td>
             `;
+          } else if (p.current_status === 'Pending' || p.current_status === 'TBD') {
+            currentStatusCell = `
+              <td>
+                <span class="status-badge-wl" style="background:rgba(148,163,184,0.15); color:#94a3b8; border-color:#64748b;">⏳ Pending</span>
+              </td>
+            `;
           } else {
             const curVal = p.current_status || p.seat;
             const pred = p.prediction ? `<span class="chance-tag">${p.prediction}</span>` : '';
@@ -1316,37 +1336,49 @@ template = """<!DOCTYPE html>
       if (text) text.textContent = 'Updating...';
 
       try {
-        const res = await fetch('https://api.confirmtkt.com/api/pnr/status/2842426597');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
+        const [res1, res2] = await Promise.all([
+          fetch('https://api.confirmtkt.com/api/pnr/status/2842426597').catch(() => null),
+          fetch('https://api.confirmtkt.com/api/pnr/status/2161734595').catch(() => null)
+        ]);
         
-        if (data && data.PassengerStatus && Array.isArray(data.PassengerStatus)) {
-          const waitlistedPax = datasets['leg3'].filter(p => p.pnr === '2842426597');
-          data.PassengerStatus.forEach((ps, idx) => {
-            if (waitlistedPax[idx]) {
-              const curStatus = (ps.CurrentStatus || '').trim().replace(/\s+/g, ' ');
-              if (curStatus) {
-                waitlistedPax[idx].current_status = curStatus;
+        let updatedCount = 0;
+        if (res1 && res1.ok) {
+          const d1 = await res1.json();
+          if (d1 && d1.PassengerStatus && Array.isArray(d1.PassengerStatus)) {
+            const wl1 = datasets['leg3'].filter(p => p.pnr === '2842426597');
+            d1.PassengerStatus.forEach((ps, idx) => {
+              if (wl1[idx]) {
+                const s = (ps.CurrentStatus || '').trim().replace(/\s+/g, ' ');
+                if (s) wl1[idx].current_status = s;
+                if (ps.Prediction) wl1[idx].prediction = ps.Prediction;
+                updatedCount++;
               }
-              if (ps.Prediction) {
-                waitlistedPax[idx].prediction = ps.Prediction;
-              }
-            }
-          });
-
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-          legDetails['leg3'].lastRefreshed = timeStr;
-          
-          const minWl = waitlistedPax[0]?.current_status || 'GNWL 72';
-          const maxWl = waitlistedPax[waitlistedPax.length - 1]?.current_status || 'GNWL 76';
-          legDetails['leg3'].paxTotal = `4 Confirmed (1A) • 5 Waitlist (${minWl}–${maxWl})`;
-
-          renderCurrentLeg();
-          showToast(`⚡ Refreshed 5 waitlist tickets live (${timeStr})!`);
-        } else {
-          throw new Error('Malformed API response');
+            });
+          }
         }
+
+        if (res2 && res2.ok) {
+          const d2 = await res2.json();
+          if (d2 && d2.PassengerStatus && Array.isArray(d2.PassengerStatus)) {
+            const wl2 = datasets['leg3'].filter(p => p.pnr === '2161734595');
+            d2.PassengerStatus.forEach((ps, idx) => {
+              if (wl2[idx]) {
+                const s = (ps.CurrentStatus || '').trim().replace(/\s+/g, ' ');
+                if (s) wl2[idx].current_status = s;
+                if (ps.Prediction) wl2[idx].prediction = ps.Prediction;
+                updatedCount++;
+              }
+            });
+          }
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        legDetails['leg3'].lastRefreshed = timeStr;
+        legDetails['leg3'].paxTotal = `12 Confirmed (1A: 4, B2: 8) • 8 Waitlist (3A) • 10 TBD`;
+
+        renderCurrentLeg();
+        showToast(`⚡ Refreshed ${updatedCount} tickets live (${timeStr})!`);
       } catch (err) {
         console.warn('Failed to fetch live waitlist status:', err);
         showToast('⚠️ Could not connect to live IRCTC server. Retaining latest status.');
