@@ -25,11 +25,11 @@
 - [x] Verify Leg 3 ticket modal in browser with screenshot proof for Md Azad Ahmad (PNR 2623649572)
 - [x] Sync changes to both baraat_travel_companion.html and baraat_travel_portal.html
 
-- [ ] Create index.html as an exact mirror of baraat_travel_companion.html
-- [ ] Initialize git repo and commit all site assets (index.html, Tickets/, fonts/, favicon.png, manifest.json)
-- [ ] Create GitHub remote repository on @ejazanwar572 using gh CLI
-- [ ] Configure and enable GitHub Pages on main branch
-- [ ] Verify live site deployment and test live URL
+- [x] Create index.html as an exact mirror of baraat_travel_companion.html
+- [x] Initialize git repo and commit all site assets (index.html, Tickets/, fonts/, favicon.png, manifest.json)
+- [x] Create GitHub remote repository on @ejazanwar572 using gh CLI
+- [x] Configure and enable GitHub Pages on main branch
+- [x] Verify live site deployment and test live URL (https://ejazanwar572.github.io/baraat-travel-portal/)
 
 ## Review & Results
 - **Ticket Discovery Complete**: 11 tickets discovered (Gaya ➔ NDLS on Mahabodhi 12397, NDLS ➔ Rudrapur on Shatabdi 12040, and return on Doon Exp 13010).
