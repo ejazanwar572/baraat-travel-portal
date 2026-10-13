@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Baraat Pass • Mobile Boarding Wallet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --green: #10b981;
+      --gold: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 20px;
+    }
+    .app-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-live {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--green);
+      border: 1px solid var(--green);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 700;
+    }
+    .search-bar-wrap {
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+      margin-bottom: 20px;
+    }
+    .search-input {
+      width: 100%;
+      background: #1e293b;
+      border: 2px solid #334155;
+      padding: 14px 18px 14px 44px;
+      border-radius: 16px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+    .quick-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .chip.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+    .wallet-card {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .card-notch-left, .card-notch-right {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: var(--bg);
+      border-radius: 50%;
+      top: 240px;
+      z-index: 5;
+    }
+    .card-notch-left { left: -12px; }
+    .card-notch-right { right: -12px; }
+    .card-top {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      padding: 24px;
+    }
+    .card-top.groom-top {
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+    }
+    .flight-route {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+    }
+    .stn-code {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stn-city {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .plane-icon {
+      font-size: 1.4rem;
+      opacity: 0.8;
+    }
+    .card-middle {
+      padding: 20px 24px;
+      background: #ffffff;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .info-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .info-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+    .leg-badge-box {
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      margin-bottom: 12px;
+    }
+    .leg-badge-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 4px;
+    }
+    .card-bottom {
+      background: #f1f5f9;
+      padding: 18px 24px;
+      border-top: 2px dashed #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .barcode-sim {
+      height: 42px;
+      background: repeating-linear-gradient(90deg, #0f172a 0px, #0f172a 2px, transparent 2px, transparent 5px, #0f172a 5px, #0f172a 9px);
+      border-radius: 4px;
+    }
+    .btn-wa-pass {
+      background: #25D366;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="app-brand">
+      🎫 <span>Baraat Pass</span>
+    </div>
+    <span class="badge-live">LIVE DEPLOYMENT</span>
+  </header>
+
+  <div class="search-bar-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="qInput" class="search-input" placeholder="Type your name or seat..." oninput="filterWallet()">
+  </div>
+
+  <div class="quick-chips">
+    <button class="chip active" onclick="setChip('all', this)">All (30)</button>
+    <button class="chip" onclick="setChip('c2', this)">Coach C2</button>
+    <button class="chip" onclick="setChip('c3', this)">Coach C3</button>
+    <button class="chip" onclick="setChip('m2', this)">Coach M2</button>
+    <button class="chip" onclick="setChip('b1', this)">Coach B1</button>
+  </div>
+
+  <div id="walletList"></div>
+
+  <script>
+    const passengers = [{"id": "p1", "name": "Md Ejaz Anwar (Groom)", "short_name": "Ejaz Anwar", "age": 30, "gender": "M", "relation": "Groom", "phone": "+91 9852218098", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "10", "berth": "MB (Middle)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "40", "berth": "Window Side", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p2", "name": "Masroor Jahan", "short_name": "Masroor Jahan", "age": 26, "gender": "F", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "38", "berth": "UB (Upper)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "41", "berth": "Middle", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p3", "name": "Imran Khan", "short_name": "Imran Khan", "age": 35, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M3", "seat": "21", "berth": "MB (Middle)", "pnr": "6208461284", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "42", "berth": "Aisle", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p4", "name": "Neyaz Apsar", "short_name": "Neyaz Apsar", "age": 27, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M3", "seat": "22", "berth": "UB (Upper)", "pnr": "6208461284", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "43", "berth": "Aisle", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p5", "name": "Rizwan Khan", "short_name": "Rizwan Khan", "age": 25, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "13", "berth": "MB (Middle)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "44", "berth": "Window Side", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p6", "name": "Aftab Alam", "short_name": "Aftab Alam", "age": 28, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "12", "berth": "LB (Lower)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "45", "berth": "Window Side", "pnr": "2842449153", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p7", "name": "Md Tarique", "short_name": "Md Tarique", "age": 30, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "39", "berth": "SL (Side Lower)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "33", "berth": "Aisle", "pnr": "2461846773", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p8", "name": "Ejaz Khan", "short_name": "Ejaz Khan", "age": 30, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "35", "berth": "UB (Upper)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C2", "seat": "34", "berth": "Middle", "pnr": "2461846773", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p9", "name": "Md Azad Anwar (Father of Groom)", "short_name": "Azad Anwar", "age": 55, "gender": "M", "relation": "Father of Groom", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "26", "berth": "MB (Middle)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "70", "berth": "Window Side", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "1A", "seat": "Cabin/Coupe", "berth": "First AC (CNF)", "pnr": "2623649572", "status": "CNF"}}, {"id": "p10", "name": "Sohail Akhtar", "short_name": "Sohail Akhtar", "age": 40, "gender": "M", "relation": "Senior Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "30", "berth": "UB (Upper)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "TBD (Ticket 1)", "berth": "TBD", "pnr": "Ticket 1", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "1A", "seat": "Cabin/Coupe", "berth": "First AC (CNF)", "pnr": "2623649572", "status": "CNF"}}, {"id": "p11", "name": "Md Maaz Khan", "short_name": "Md Maaz Khan", "age": 55, "gender": "M", "relation": "Senior Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "11", "berth": "UB (Upper)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "59", "berth": "Window Side", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "1A", "seat": "Cabin/Coupe", "berth": "First AC (CNF)", "pnr": "2461735759", "status": "CNF"}}, {"id": "p12", "name": "Md Mustaq Alam", "short_name": "Mustaq Alam", "age": 58, "gender": "M", "relation": "Senior Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "9", "berth": "LB (Lower)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "18", "berth": "Middle", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "1A", "seat": "Cabin/Coupe", "berth": "First AC (CNF)", "pnr": "2461735759", "status": "CNF"}}, {"id": "p13", "name": "Md Shami Akhtar", "short_name": "Shami Akhtar", "age": 56, "gender": "M", "relation": "Senior Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "27", "berth": "UB (Upper)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "16", "berth": "Aisle", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "3A", "seat": "WL 246", "berth": "Waitlisted", "pnr": "2842426597", "status": "WL"}}, {"id": "p14", "name": "Sarfaraz Khan", "short_name": "Sarfaraz Khan", "age": 48, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "37", "berth": "MB (Middle)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "71", "berth": "Middle", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p15", "name": "Naushad Alam", "short_name": "Naushad Alam", "age": 48, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "16", "berth": "SU (Side Upper)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "19", "berth": "Window Side", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p16", "name": "Md Aklimuddin", "short_name": "Aklimuddin", "age": 47, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "29", "berth": "MB (Middle)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "72", "berth": "Aisle", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p17", "name": "Minhaj Khan", "short_name": "Minhaj Khan", "age": 45, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "32", "berth": "SU (Side Upper)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "67", "berth": "Middle", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p18", "name": "Md Siraj Anwar", "short_name": "Siraj Anwar", "age": 34, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "14", "berth": "UB (Upper)", "pnr": "650-8443973", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "68", "berth": "Aisle", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p19", "name": "Md Haider Khan", "short_name": "Haider Khan", "age": 34, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "34", "berth": "MB (Middle)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "74", "berth": "Window Side", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p20", "name": "Shahrukh Khan", "short_name": "Shahrukh Khan", "age": 33, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M3", "seat": "19", "berth": "UB (Upper)", "pnr": "6208461284", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "76", "berth": "Aisle", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p21", "name": "Md Irfan Alam", "short_name": "Irfan Alam", "age": 32, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "34", "berth": "MB (Middle)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "66", "berth": "Window Side", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p22", "name": "Md Imtiyaz Alam", "short_name": "Imtiyaz Alam", "age": 32, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "35", "berth": "UB (Upper)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "69", "berth": "Window Side", "pnr": "2842448764", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p23", "name": "Mokhatib Alam", "short_name": "Mokhatib Alam", "age": 30, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "48", "berth": "SU (Side Upper)", "pnr": "640-8444042", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "73", "berth": "Middle", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p24", "name": "Md Shahil Anwar", "short_name": "Shahil Anwar", "age": 28, "gender": "M", "relation": "Family", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "38", "berth": "UB (Upper)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "17", "berth": "Middle", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "3A", "seat": "WL 245", "berth": "Waitlisted", "pnr": "2842426597", "status": "WL"}}, {"id": "p25", "name": "Nedayur Rehman", "short_name": "Nedayur Rehman", "age": 28, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "37", "berth": "MB (Middle)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "33", "berth": "Aisle", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p26", "name": "Amjad Khan", "short_name": "Amjad Khan", "age": 27, "gender": "M", "relation": "Family / Friend", "leg1": {"train": "12397 Mahabodhi", "coach": "M2", "seat": "40", "berth": "SU (Side Upper)", "pnr": "654-8443673", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "75", "berth": "Window Side", "pnr": "2957815277", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "3A", "seat": "WL 243", "berth": "Waitlisted", "pnr": "2842426597", "status": "WL"}}, {"id": "p27", "name": "Md Alatamas Khan", "short_name": "Alatamas Khan", "age": 23, "gender": "M", "relation": "Youth / Cousin", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "42", "berth": "MB (Middle)", "pnr": "660-8443705", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3", "seat": "34", "berth": "Window Side", "pnr": "2361756513", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p28", "name": "Senior Guest 1 (M 60)", "short_name": "Guest (M 60)", "age": 60, "gender": "M", "relation": "Elder Relative", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "43", "berth": "UB (Upper)", "pnr": "660-8443705", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3 (TBD)", "seat": "TBD", "berth": "Ticket 1 Pending", "pnr": "Ticket 1", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p29", "name": "Family Guest 2 (M 19)", "short_name": "Guest (M 19)", "age": 19, "gender": "M", "relation": "Youth / Relative", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "45", "berth": "MB (Middle)", "pnr": "660-8443705", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3 (TBD)", "seat": "TBD", "berth": "Ticket 1 Pending", "pnr": "Ticket 1", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}, {"id": "p30", "name": "Youth Guest 3 (M 16)", "short_name": "Guest (M 16)", "age": 16, "gender": "M", "relation": "Youth / Relative", "leg1": {"train": "12397 Mahabodhi", "coach": "B1", "seat": "40", "berth": "SU (Side Upper)", "pnr": "694-8548028", "status": "CNF"}, "leg2": {"train": "12040 Shatabdi", "coach": "C3 (TBD)", "seat": "TBD", "berth": "Ticket 1 Pending", "pnr": "Ticket 1", "status": "CNF", "catering": "Non-Veg"}, "leg3": {"train": "13010 Doon Exp", "coach": "TBD", "seat": "TBD", "berth": "TBD", "pnr": "Pending", "status": "Pending"}}];
+    let currentChip = 'all';
+
+    function renderWallet(list = passengers) {
+      const container = document.getElementById('walletList');
+      if (!list.length) {
+        container.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b;">No boarding pass found</div>';
+        return;
+      }
+      container.innerHTML = list.map(p => {
+        const isGroom = p.relation.toLowerCase().includes('groom');
+        return `
+          <div class="wallet-card">
+            <div class="card-notch-left"></div>
+            <div class="card-notch-right"></div>
+
+            <div class="card-top ${isGroom ? 'groom-top' : ''}">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; opacity:0.9;">
+                <span>WEDDING TRAVEL PASS</span>
+                <span>${p.relation.toUpperCase()}</span>
+              </div>
+              <div class="flight-route">
+                <div>
+                  <div class="stn-code">GAYA</div>
+                  <div class="stn-city">Gaya Jn • 14:00</div>
+                </div>
+                <div class="plane-icon">➔ 🚆 ➔</div>
+                <div style="text-align:right;">
+                  <div class="stn-code">RUPC</div>
+                  <div class="stn-city">Rudrapur • 10:08</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-middle">
+              <div style="margin-bottom:14px;">
+                <div style="font-size:0.75rem; color:#64748b; text-transform:uppercase;">Passenger Name</div>
+                <div style="font-size:1.25rem; font-weight:800; color:#0f172a;">${p.name}</div>
+              </div>
+
+              <!-- Leg 1 Mini -->
+              <div class="leg-badge-box">
+                <div class="leg-badge-header">
+                  <span>LEG 1: MAHABODHI EXP (12397)</span>
+                  <span>22-OCT</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:700;">
+                  <span>COACH ${p.leg1.coach} • SEAT ${p.leg1.seat}</span>
+                  <span style="color:#0284c7;">${p.leg1.berth}</span>
+                </div>
+              </div>
+
+              <!-- Leg 2 Mini -->
+              <div class="leg-badge-box" style="background:#f0fdf4; border-color:#86efac;">
+                <div class="leg-badge-header" style="color:#16a34a;">
+                  <span>LEG 2: KATHGODAM SHATABDI (12040)</span>
+                  <span>23-OCT</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:700;">
+                  <span>COACH ${p.leg2.coach} • SEAT ${p.leg2.seat}</span>
+                  <span style="color:#16a34a;">${p.leg2.berth}</span>
+                </div>
+              </div>
+
+              <div class="info-grid">
+                <div>
+                  <div class="info-label">Leg 1 PNR</div>
+                  <div class="info-val">${p.leg1.pnr}</div>
+                </div>
+                <div>
+                  <div class="info-label">Leg 2 PNR</div>
+                  <div class="info-val">${p.leg2.pnr}</div>
+                </div>
+                <div>
+                  <div class="info-label">Status</div>
+                  <div class="info-val" style="color:#16a34a;">CONFIRMED</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-bottom">
+              <div class="barcode-sim"></div>
+              <button class="btn-wa-pass" onclick="sharePass('${p.id}')">
+                📲 Send Boarding Pass via WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setChip(c, btn) {
+      currentChip = c;
+      document.querySelectorAll('.chip').forEach(el => el.classList.remove('active'));
+      btn.classList.add('active');
+      filterWallet();
+    }
+
+    function filterWallet() {
+      const q = document.getElementById('qInput').value.trim().toLowerCase();
+      const filtered = passengers.filter(p => {
+        const matchesQ = !q || p.name.toLowerCase().includes(q) || (p.leg1.coach + p.leg1.seat).toLowerCase().includes(q) || (p.leg2.coach + p.leg2.seat).toLowerCase().includes(q);
+        if (!matchesQ) return false;
+        if (currentChip === 'all') return true;
+        if (currentChip === 'c2') return p.leg2.coach.toLowerCase() === 'c2';
+        if (currentChip === 'c3') return p.leg2.coach.toLowerCase() === 'c3';
+        if (currentChip === 'm2') return p.leg1.coach.toLowerCase() === 'm2';
+        if (currentChip === 'b1') return p.leg1.coach.toLowerCase() === 'b1';
+        return true;
+      });
+      renderWallet(filtered);
+    }
+
+    function sharePass(id) {
+      const p = passengers.find(x => x.id === id);
+      if (!p) return;
+      const text = `🎫 *Baraat Boarding Pass • ${p.name}*%0A` +
+        `• Leg 1 (Mahabodhi): Coach *${p.leg1.coach}* / Seat *${p.leg1.seat}* (${p.leg1.berth})%0A` +
+        `• Leg 2 (Shatabdi): Coach *${p.leg2.coach}* / Seat *${p.leg2.seat}* (${p.leg2.berth})%0A` +
+        `• Gaya Departure: 22-Oct 14:00 ➔ Rudrapur: 23-Oct 10:08%0A` +
+        `Helpline: +91 9852218098`;
+      window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+
+    renderWallet();
+  </script>
+</body>
+</html>

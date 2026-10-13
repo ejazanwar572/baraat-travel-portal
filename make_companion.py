@@ -1,0 +1,1512 @@
+import json
+
+from build_custom_portal import passengers_leg1, passengers_leg2, passengers_leg3
+
+template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Baraat Delegation • Ejaz & Iqura</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="theme-color" content="#0e2319">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #07140e;
+      --surface-dark: #0e2319;
+      --card-dark: #132e22;
+      --card-hover: #183a2b;
+      --border-dark: #1f4734;
+      --gold-primary: #d4af37;
+      --gold-light: #f5d77f;
+      --gold-gradient: linear-gradient(135deg, #f5d77f 0%, #d4af37 50%, #aa820a 100%);
+      --emerald-gradient: radial-gradient(circle at 50% 0%, #164232 0%, #07140e 85%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-gold: #f5d77f;
+      --accent-green: #10b981;
+      --accent-blue: #38bdf8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-luxury: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+      --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      background-image: var(--emerald-gradient);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* 1. Header Section matching user image */
+    .royal-header-wrap {
+      text-align: center;
+      padding: 36px 16px 20px;
+      position: relative;
+    }
+
+    .bismillah {
+      font-size: 1.8rem;
+      color: var(--gold-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .fleuron {
+      display: inline-block;
+      font-size: 1.2rem;
+      color: var(--gold-primary);
+      margin-bottom: 12px;
+    }
+
+    .header-card {
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      background: rgba(14, 35, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      padding: 32px 20px;
+      box-shadow: var(--shadow-luxury);
+      max-width: 900px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    .family-welcome {
+      font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .delegation-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .couple-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .quran-verse {
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      font-style: italic;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    /* 2. Timer & Relevant Details Bar (Two-Row Layout) */
+    .timer-stats-bar {
+      background: rgba(19, 46, 34, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      box-shadow: var(--shadow-luxury), 0 0 25px rgba(212, 175, 55, 0.12);
+      max-width: 960px;
+      margin: 0 auto 30px;
+    }
+
+    .countdown-cluster {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .cd-unit {
+      text-align: center;
+      min-width: 64px;
+      background: rgba(7, 20, 14, 0.65);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 10px;
+      padding: 8px 14px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .cd-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      line-height: 1;
+      display: block;
+      text-shadow: 0 2px 14px rgba(212, 175, 55, 0.4);
+    }
+
+    .cd-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+      display: block;
+    }
+
+    .colon-sep {
+      color: var(--gold-primary);
+      font-size: 1.8rem;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .meta-pills-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      flex-wrap: wrap;
+      width: 100%;
+      border-top: 1px solid rgba(31, 71, 52, 0.75);
+      padding-top: 16px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(14, 35, 25, 0.85);
+      border: 1px solid var(--border-dark);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+    .meta-pill:hover {
+      border-color: var(--gold-primary);
+      background: rgba(24, 58, 43, 0.95);
+    }
+    .meta-pill strong {
+      color: #ffffff;
+    }
+
+    .meta-link {
+      color: #ffffff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+    }
+    .meta-link:hover {
+      color: var(--gold-light);
+      text-decoration: underline;
+    }
+
+    /* 3. The 3 Journey Navigation Tabs matching handwritten outline */
+    .journey-tabs-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .journey-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .journey-tab-btn {
+      background: var(--surface-dark);
+      border: 1.5px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .journey-tab-btn:hover {
+      border-color: var(--gold-primary);
+      background: var(--card-dark);
+      color: var(--text-main);
+    }
+
+    .journey-tab-btn.active {
+      background: linear-gradient(135deg, #1b4332 0%, #132e22 100%);
+      border-color: var(--gold-primary);
+      color: #ffffff;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .journey-tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 9px solid var(--gold-primary);
+    }
+
+    .tab-route-title {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+    }
+
+    .tab-train-sub {
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    /* Timings highlight inside the tab card */
+    .tab-timings-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-top: 4px;
+      background: rgba(7, 20, 14, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+    }
+
+    .timing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+    }
+
+    .timing-type {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+
+    .timing-type.dep {
+      color: #34d399;
+    }
+
+    .timing-type.arr {
+      color: #38bdf8;
+    }
+
+    .timing-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 0.82rem;
+    }
+
+    /* Coach Filters Bar (Replaced redundant train details) */
+    .coach-filters-bar {
+      background: var(--card-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .filter-label-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label-text {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .train-badges-cluster {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-pill {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .badge-pill:hover, .badge-pill.active {
+      background: var(--gold-primary);
+      color: #07140e;
+      border-color: var(--gold-primary);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .badge-pill.green {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      cursor: default;
+    }
+
+    /* Live Waitlist & Status Badges */
+    .btn-refresh-wl {
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-refresh-wl:hover {
+      background: var(--gold-primary);
+      color: #07140e;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-refresh-wl.loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .spin {
+      display: inline-block;
+      animation: spinAnim 0.9s linear infinite;
+    }
+
+    @keyframes spinAnim {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .status-badge-cnf {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-badge-wl {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+    }
+
+    .chance-tag {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Layover Notice for New Delhi */
+    .layover-banner {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #e0f2fe;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Search & Toolbar */
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-input-box {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 1.5px solid var(--border-dark);
+      padding: 10px 14px 10px 38px;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-tool {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-tool:hover {
+      color: #fff;
+      border-color: var(--gold-primary);
+    }
+
+    .btn-tool.active {
+      background: var(--gold-primary);
+      color: #07140e;
+      border-color: var(--gold-primary);
+    }
+
+    /* 4. PASSENGER LIST TABLE matching handwritten outline */
+    .table-wrapper {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      box-shadow: var(--shadow-luxury);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table.passenger-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+      min-width: 700px;
+    }
+
+    table.passenger-table th {
+      background: #091a13;
+      color: var(--gold-light);
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border-dark);
+      white-space: nowrap;
+    }
+
+    table.passenger-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(31, 71, 52, 0.6);
+      vertical-align: middle;
+    }
+
+    table.passenger-table tr:hover td {
+      background: rgba(24, 58, 43, 0.5);
+    }
+
+    /* Coach Separator Row */
+    tr.coach-divider-row td {
+      background: rgba(212, 175, 55, 0.08);
+      border-top: 2px solid var(--border-dark);
+      border-bottom: 2px solid var(--border-dark);
+      padding: 10px 16px;
+      font-weight: 800;
+      color: var(--gold-primary);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Cell Badges */
+    .coach-pill {
+      display: inline-block;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Distinct highlight color per coach */
+    .coach-pill.c-b1 {
+      background: rgba(245, 158, 11, 0.22);
+      border: 1.5px solid #f59e0b;
+      color: #fbbf24;
+    }
+
+    .coach-pill.c-m2 {
+      background: rgba(16, 185, 129, 0.22);
+      border: 1.5px solid #10b981;
+      color: #34d399;
+    }
+
+    .coach-pill.c-m3 {
+      background: rgba(6, 182, 212, 0.22);
+      border: 1.5px solid #06b6d4;
+      color: #22d3ee;
+    }
+
+    .coach-pill.c-c2 {
+      background: rgba(59, 130, 246, 0.22);
+      border: 1.5px solid #3b82f6;
+      color: #60a5fa;
+    }
+
+    .coach-pill.c-c3 {
+      background: rgba(168, 85, 247, 0.24);
+      border: 1.5px solid #a855f7;
+      color: #c084fc;
+    }
+
+    .coach-pill.c-1a {
+      background: rgba(234, 179, 8, 0.25);
+      border: 1.5px solid #eab308;
+      color: #fef08a;
+      box-shadow: 0 0 10px rgba(234, 179, 8, 0.25);
+    }
+
+    .coach-pill.c-3a {
+      background: rgba(249, 115, 22, 0.24);
+      border: 1.5px solid #f97316;
+      color: #fb923c;
+    }
+
+    .name-cell {
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gender-pill {
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    .gender-pill.female {
+      background: rgba(244, 114, 182, 0.2);
+      color: #f472b6;
+      border: 1px solid rgba(244, 114, 182, 0.4);
+    }
+
+    .berth-cell strong {
+      color: #ffffff;
+      display: block;
+      font-size: 0.95rem;
+    }
+    .berth-cell span {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    /* Action buttons in Ticket column */
+    .ticket-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .btn-ticket-view {
+      background: var(--gold-gradient);
+      color: #07140e;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-ticket-view:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-ticket-wa {
+      background: #25D366;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+    .btn-ticket-wa:hover {
+      background: #1da851;
+    }
+
+    /* Modal for Live Ticket preview */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-window {
+      background: var(--card-dark);
+      border: 1px solid var(--gold-primary);
+      border-radius: var(--radius-lg);
+      max-width: 740px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      padding: 24px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Card view for mobile */
+    .mobile-cards-list {
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .m-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Copied toast notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold-primary);
+      color: #07140e;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 10000;
+    }
+
+    @media (max-width: 860px) {
+      .journey-tabs {
+        grid-template-columns: 1fr;
+      }
+      .tab-route-title {
+        font-size: 1.05rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .timer-stats-bar {
+        padding: 18px 12px;
+      }
+      .countdown-cluster {
+        gap: 8px;
+      }
+      .cd-val {
+        font-size: 1.8rem;
+      }
+      .cd-unit {
+        min-width: 48px;
+        padding: 6px 8px;
+      }
+      .colon-sep {
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+      }
+      .meta-pills-row {
+        gap: 8px;
+      }
+      .meta-pill {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="royal-header-wrap">
+    <div class="container">
+      <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="fleuron">⚜️</div>
+
+      <div class="header-card">
+        <div class="family-welcome">The Anwar Family Welcomes The Honoured Baraatis</div>
+        <h1 class="delegation-title">The Baraat Delegation</h1>
+        <div class="couple-title">Ejaz & Iqura</div>
+        <p class="quran-verse">"And We have created you in pairs." (Al Quran 78:8)</p>
+      </div>
+
+      <!-- Live Countdown & Stats Bar (Two-Row Layout) -->
+      <div class="timer-stats-bar">
+        <!-- Row 1: Larger, Centered Countdown Timer -->
+        <div class="countdown-cluster">
+          <div class="cd-unit">
+            <span class="cd-val" id="cdD">09</span>
+            <span class="cd-lbl">Days</span>
+          </div>
+          <span class="colon-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-val" id="cdH">01</span>
+            <span class="cd-lbl">Hours</span>
+          </div>
+          <span class="colon-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-val" id="cdM">05</span>
+            <span class="cd-lbl">Mins</span>
+          </div>
+          <span class="colon-sep">:</span>
+          <div class="cd-unit">
+            <span class="cd-val" id="cdS">59</span>
+            <span class="cd-lbl">Secs</span>
+          </div>
+        </div>
+
+        <!-- Row 2: 30 Travellers, 3 Trains, Venue, Coordinator -->
+        <div class="meta-pills-row">
+          <div class="meta-pill">👥 <strong>30</strong> Travellers</div>
+          <div class="meta-pill">🚆 <strong>3</strong> Trains</div>
+          <div class="meta-pill">
+            <a href="https://www.google.com/maps/search/?api=1&query=Rudrapur,+Uttarakhand" target="_blank" class="meta-link" title="Open Rudrapur on Google Maps">
+              📍 <strong>Venue - Rudrapur</strong> ↗
+            </a>
+          </div>
+          <div class="meta-pill">
+            <a href="tel:9024293714" class="meta-link" title="Call Coordinator">
+              📞 <strong>Coordinator: 9024293714</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- 3 JOURNEY NAVIGATION TABS WITH INTEGRATED TRAIN & TIMING INFO -->
+    <div class="journey-tabs-wrapper">
+      <div class="journey-tabs">
+        <!-- TAB 1: Gaya to New Delhi -->
+        <button class="journey-tab-btn active" id="tabBtn1" onclick="switchJourney('leg1')">
+          <div class="tab-route-title">🚆 Gaya to New Delhi</div>
+          <div class="tab-train-sub">Train 12397 • Mahabodhi Express</div>
+          <div class="tab-timings-grid">
+            <div class="timing-row">
+              <span class="timing-type dep">🟢 Departure</span>
+              <span class="timing-val">22-Oct • 02:00 PM</span>
+            </div>
+            <div class="timing-row">
+              <span class="timing-type arr">🏁 Arrival</span>
+              <span class="timing-val">23-Oct • 04:10 AM</span>
+            </div>
+          </div>
+        </button>
+
+        <!-- TAB 2: New Delhi to Rudrapur -->
+        <button class="journey-tab-btn" id="tabBtn2" onclick="switchJourney('leg2')">
+          <div class="tab-route-title">🚆 New Delhi to Rudrapur</div>
+          <div class="tab-train-sub">Train 12040 • Kathgodam Shatabdi</div>
+          <div class="tab-timings-grid">
+            <div class="timing-row">
+              <span class="timing-type dep">🟢 Departure</span>
+              <span class="timing-val">23-Oct • 06:20 AM</span>
+            </div>
+            <div class="timing-row">
+              <span class="timing-type arr">🏁 Arrival</span>
+              <span class="timing-val">23-Oct • 10:08 AM</span>
+            </div>
+          </div>
+        </button>
+
+        <!-- TAB 3: Rudrapur to Gaya -->
+        <button class="journey-tab-btn" id="tabBtn3" onclick="switchJourney('leg3')">
+          <div class="tab-route-title">🚆 Rudrapur to Gaya</div>
+          <div class="tab-train-sub">Train 13010 • Doon Express (via Rampur)</div>
+          <div class="tab-timings-grid">
+            <div class="timing-row">
+              <span class="timing-type dep">🟢 Departure</span>
+              <span class="timing-val">24-Oct • 02:35 AM</span>
+            </div>
+            <div class="timing-row">
+              <span class="timing-type arr">🏁 Arrival</span>
+              <span class="timing-val">24-Oct • 08:45 PM</span>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- CLEAN COACH FILTERS & CAPACITY BAR (Replaced redundant train info) -->
+    <div class="coach-filters-bar" id="coachFiltersBar">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- New Delhi Layover Notice (Shows for Leg 2) -->
+    <div id="layoverNotice" class="layover-banner" style="display:none;">
+      <span style="font-size:1.3rem;">☕</span>
+      <div>
+        <strong>New Delhi transit window: 04:10 AM to 06:20 AM</strong> (with a 2h 10m buffer, depending upon the arrival of Mahabodhi Express).
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="table-toolbar">
+      <div class="search-input-box" style="width: 100%;">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="filterInput" class="search-input" placeholder="Search by name, coach (C2, C3, M2, B1), seat, or PNR..." oninput="handleFilter()">
+      </div>
+    </div>
+
+    <!-- THE PASSENGER TABLE (Strictly sorted by Coach No) -->
+    <div class="table-wrapper" id="tableViewWrap">
+      <table class="passenger-table" id="passengerTable">
+        <thead id="tableHead">
+          <tr>
+            <th style="width: 50px;">S.No</th>
+            <th style="width: 110px;">Coach No</th>
+            <th>Name</th>
+            <th style="width: 80px;">Gender</th>
+            <th>Berth / Seat</th>
+            <th style="width: 150px; text-align: center;">Live Ticket</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- JS Rendered Rows -->
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- Live Ticket Modal -->
+  <div class="modal-overlay" id="ticketModal" onclick="closeModalOnOutside(event)">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalTicketContent">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-msg" id="toastMsg">Copied to Clipboard!</div>
+
+  <script>
+    // PASSENGER DATASETS SORTED BY COACH
+    const datasets = {
+      'leg1': PASSENGERS_LEG1_JSON,
+      'leg2': PASSENGERS_LEG2_JSON,
+      'leg3': PASSENGERS_LEG3_JSON
+    };
+
+    const legDetails = {
+      'leg1': {
+        title: 'Train 12397 / Mahabodhi Express',
+        coaches: ['B1 (9 pax)', 'M2 (18 pax)', 'M3 (3 pax)'],
+        coachFilters: ['All', 'B1', 'M2', 'M3'],
+        paxTotal: '30 Confirmed Berths'
+      },
+      'leg2': {
+        title: 'Train 12040 / Kathgodam Shatabdi',
+        coaches: ['C2 (8 pax - Groom Cluster)', 'C3 (18 pax)', 'Pending (4 pax)'],
+        coachFilters: ['All', 'C2', 'C3'],
+        paxTotal: '26 + 4 Seats'
+      },
+      'leg3': {
+        title: 'Train 13010 / Doon Express',
+        coaches: ['1A First AC (4 Confirmed)', '3A Third AC (5 Waitlist: GNWL 72–76)'],
+        coachFilters: ['All', '1A', '3A'],
+        paxTotal: '4 Confirmed (1A) • 5 Waitlist (GNWL 72–76)'
+      }
+    };
+
+    let activeLeg = 'leg1';
+    let selectedCoachFilter = 'All';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      startCountdown();
+      renderCurrentLeg();
+    });
+
+    function startCountdown() {
+      const target = new Date('2026-10-22T14:00:00+05:30').getTime();
+      function tick() {
+        const now = new Date().getTime();
+        const diff = target - now;
+        if (diff <= 0) return;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        document.getElementById('cdD').textContent = String(d).padStart(2, '0');
+        document.getElementById('cdH').textContent = String(h).padStart(2, '0');
+        document.getElementById('cdM').textContent = String(m).padStart(2, '0');
+        document.getElementById('cdS').textContent = String(s).padStart(2, '0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function switchJourney(legKey) {
+      activeLeg = legKey;
+      selectedCoachFilter = 'All';
+      document.querySelectorAll('.journey-tab-btn').forEach(btn => btn.classList.remove('active'));
+      if (legKey === 'leg1') document.getElementById('tabBtn1').classList.add('active');
+      if (legKey === 'leg2') document.getElementById('tabBtn2').classList.add('active');
+      if (legKey === 'leg3') document.getElementById('tabBtn3').classList.add('active');
+
+      document.getElementById('layoverNotice').style.display = (legKey === 'leg2') ? 'flex' : 'none';
+      document.getElementById('filterInput').value = '';
+
+      renderCurrentLeg();
+    }
+
+    function setCoachFilter(cName) {
+      selectedCoachFilter = cName;
+      renderCurrentLeg();
+    }
+
+    function getCoachClass(coach) {
+      const c = (coach || '').toUpperCase();
+      if (c.includes('B1')) return 'c-b1';
+      if (c.includes('M2')) return 'c-m2';
+      if (c.includes('M3')) return 'c-m3';
+      if (c.includes('C2')) return 'c-c2';
+      if (c.includes('C3')) return 'c-c3';
+      if (c.includes('1A')) return 'c-1a';
+      if (c.includes('3A')) return 'c-3a';
+      return 'c-b1';
+    }
+
+    function renderCurrentLeg(filteredList = null) {
+      const isLeg3 = (activeLeg === 'leg3');
+      const meta = legDetails[activeLeg];
+      const filtersBar = document.getElementById('coachFiltersBar');
+      
+      const filterBadges = meta.coachFilters.map(c => `
+        <span class="badge-pill ${selectedCoachFilter === c ? 'active' : ''}" onclick="setCoachFilter('${c}')">
+          ${c === 'All' ? 'All Coaches' : 'Coach ' + c}
+        </span>
+      `).join('');
+
+      const refreshBtnHtml = isLeg3 ? `
+        <button id="btnRefreshWL" class="btn-refresh-wl" onclick="refreshWaitlistStatus()" title="Refresh live IRCTC PNR waitlist status">
+          <span id="refreshIcon">🔄</span> <span id="refreshText">Refresh Live Status${meta.lastRefreshed ? ` (${meta.lastRefreshed})` : ''}</span>
+        </button>
+      ` : '';
+
+      filtersBar.innerHTML = `
+        <div class="filter-label-group">
+          <span class="filter-label-text">🏷️ Filter Coach:</span>
+          <div class="train-badges-cluster">
+            ${filterBadges}
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          ${refreshBtnHtml}
+          <span class="badge-pill green">${meta.paxTotal}</span>
+        </div>
+      `;
+
+      // Update table header based on leg
+      const thead = document.getElementById('tableHead');
+      if (thead) {
+        if (isLeg3) {
+          thead.innerHTML = `
+            <tr>
+              <th style="width: 50px;">S.No</th>
+              <th style="width: 100px;">Coach No</th>
+              <th>Name</th>
+              <th style="width: 75px;">Gender</th>
+              <th>Berth / Seat</th>
+              <th style="width: 175px;">Current Status</th>
+              <th style="width: 140px; text-align: center;">Live Ticket</th>
+            </tr>
+          `;
+        } else {
+          thead.innerHTML = `
+            <tr>
+              <th style="width: 50px;">S.No</th>
+              <th style="width: 110px;">Coach No</th>
+              <th>Name</th>
+              <th style="width: 80px;">Gender</th>
+              <th>Berth / Seat</th>
+              <th style="width: 150px; text-align: center;">Live Ticket</th>
+            </tr>
+          `;
+        }
+      }
+
+      let list = filteredList || datasets[activeLeg];
+      if (selectedCoachFilter !== 'All' && !filteredList) {
+        list = list.filter(p => p.coach.includes(selectedCoachFilter));
+      }
+
+      const tbody = document.getElementById('tableBody');
+      let tableHtml = '';
+      let lastCoach = null;
+
+      list.forEach((p, index) => {
+        // Coach separator divider row
+        if (p.coach !== lastCoach && !filteredList && selectedCoachFilter === 'All') {
+          lastCoach = p.coach;
+          tableHtml += `
+            <tr class="coach-divider-row">
+              <td colspan="${isLeg3 ? '7' : '6'}">
+                ⚡ COACH ${p.coach}
+              </td>
+            </tr>
+          `;
+        }
+
+        const isGroom = p.relation === 'Groom' || p.relation === '👑 Groom';
+        const isFather = p.relation.toLowerCase().includes('father');
+        const coachClass = getCoachClass(p.coach);
+
+        let badgeHtml = '';
+        if (isGroom) {
+          badgeHtml = '<span style="font-size:0.75rem; background:var(--gold-primary); color:#07140e; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM</span>';
+        } else if (isFather) {
+          badgeHtml = '<span style="font-size:0.75rem; background:var(--gold-primary); color:#07140e; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM&#39;S FATHER</span>';
+        }
+
+        let currentStatusCell = '';
+        if (isLeg3) {
+          if (p.current_status === 'CNF') {
+            currentStatusCell = `
+              <td>
+                <span class="status-badge-cnf">✅ CNF</span>
+              </td>
+            `;
+          } else {
+            const curVal = p.current_status || p.seat;
+            const pred = p.prediction ? `<span class="chance-tag">${p.prediction}</span>` : '';
+            currentStatusCell = `
+              <td>
+                <div style="display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  <span class="status-badge-wl">⏳ ${curVal}</span>
+                  ${pred}
+                </div>
+              </td>
+            `;
+          }
+        }
+
+        tableHtml += `
+          <tr style="${(isGroom || isFather) ? 'background: rgba(212, 175, 55, 0.08);' : ''}">
+            <td style="font-family:'JetBrains Mono'; font-weight:bold; color:var(--text-muted);">${p.sno}</td>
+            <td>
+              <span class="coach-pill ${coachClass}">${p.coach}</span>
+            </td>
+            <td>
+              <div class="name-cell">
+                <span>${p.name}</span>
+                ${badgeHtml}
+                <span style="font-size:0.75rem; color:var(--text-muted);">(${p.age}y)</span>
+              </div>
+            </td>
+            <td>
+              <span class="gender-pill ${p.gender === 'F' ? 'female' : ''}">${p.gender}</span>
+            </td>
+            <td>
+              <div class="berth-cell">
+                <strong>${p.seat}</strong>
+                <span>${p.berth}</span>
+              </div>
+            </td>
+            ${currentStatusCell}
+            <td style="text-align: center;">
+              <button class="btn-ticket-view" onclick="openLiveTicket('${p.pnr}', '${p.name}', '${p.coach}', '${p.seat}', '${p.berth}', '${p.file}', '${p.type}')">
+                🎫 View Ticket
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = tableHtml || `<tr><td colspan="${isLeg3 ? '7' : '6'}" style="text-align:center; padding:30px; color:#94a3b8;">No matching guests found</td></tr>`;
+    }
+
+    function handleFilter() {
+      const q = document.getElementById('filterInput').value.trim().toLowerCase();
+      if (!q) {
+        renderCurrentLeg();
+        return;
+      }
+      const original = datasets[activeLeg];
+      const filtered = original.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.coach.toLowerCase().includes(q) ||
+        p.seat.toLowerCase().includes(q) ||
+        p.berth.toLowerCase().includes(q) ||
+        p.pnr.toLowerCase().includes(q) ||
+        (p.current_status && p.current_status.toLowerCase().includes(q))
+      );
+      renderCurrentLeg(filtered);
+    }
+
+    async function refreshWaitlistStatus() {
+      const btn = document.getElementById('btnRefreshWL');
+      const icon = document.getElementById('refreshIcon');
+      const text = document.getElementById('refreshText');
+      if (btn) btn.classList.add('loading');
+      if (icon) icon.classList.add('spin');
+      if (text) text.textContent = 'Updating...';
+
+      try {
+        const res = await fetch('https://api.confirmtkt.com/api/pnr/status/2842426597');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        
+        if (data && data.PassengerStatus && Array.isArray(data.PassengerStatus)) {
+          const waitlistedPax = datasets['leg3'].filter(p => p.pnr === '2842426597');
+          data.PassengerStatus.forEach((ps, idx) => {
+            if (waitlistedPax[idx]) {
+              const curStatus = (ps.CurrentStatus || '').trim().replace(/\s+/g, ' ');
+              if (curStatus) {
+                waitlistedPax[idx].current_status = curStatus;
+              }
+              if (ps.Prediction) {
+                waitlistedPax[idx].prediction = ps.Prediction;
+              }
+            }
+          });
+
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+          legDetails['leg3'].lastRefreshed = timeStr;
+          
+          const minWl = waitlistedPax[0]?.current_status || 'GNWL 72';
+          const maxWl = waitlistedPax[waitlistedPax.length - 1]?.current_status || 'GNWL 76';
+          legDetails['leg3'].paxTotal = `4 Confirmed (1A) • 5 Waitlist (${minWl}–${maxWl})`;
+
+          renderCurrentLeg();
+          showToast(`⚡ Refreshed 5 waitlist tickets live (${timeStr})!`);
+        } else {
+          throw new Error('Malformed API response');
+        }
+      } catch (err) {
+        console.warn('Failed to fetch live waitlist status:', err);
+        showToast('⚠️ Could not connect to live IRCTC server. Retaining latest status.');
+      } finally {
+        if (btn) btn.classList.remove('loading');
+        if (icon) icon.classList.remove('spin');
+        if (text) {
+          const lastStr = legDetails['leg3'].lastRefreshed ? ` (${legDetails['leg3'].lastRefreshed})` : '';
+          text.textContent = `Refresh Live Status${lastStr}`;
+        }
+      }
+    }
+
+    function openLiveTicket(pnr, name, coach, seat, berth, file, type) {
+      const modal = document.getElementById('ticketModal');
+      const content = document.getElementById('modalTicketContent');
+      const pnrClean = pnr.replace('-', '');
+      const meta = legDetails[activeLeg];
+
+      const paxObj = datasets[activeLeg]?.find(x => x.name === name) || {};
+      const isWaitlisted = seat.includes('WL') || berth.includes('WL') || pnrClean === '2842426597' || (paxObj.current_status && paxObj.current_status.includes('WL'));
+
+      let mediaHtml = '';
+      if (type === 'image' || (type === 'pdf' && paxObj.preview && !isWaitlisted)) {
+        const imgSrc = (type === 'image') ? file : paxObj.preview;
+        mediaHtml = `
+          <div style="margin:16px 0; border:1px solid var(--border-dark); border-radius:10px; overflow:hidden; background:#fff; text-align:center; max-height:460px; overflow-y:auto; box-shadow:0 4px 15px rgba(0,0,0,0.5);">
+            <img src="${imgSrc}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
+          </div>
+        `;
+      } else if (isWaitlisted) {
+        const curStatusDisplay = paxObj.current_status || 'GNWL 72–76';
+        const predDisplay = paxObj.prediction || 'High Confirmation Chance: 55% – 76%';
+        let previewBlock = '';
+        if (paxObj.preview) {
+          previewBlock = `
+            <div style="margin:14px 0 0; border:1px solid var(--border-dark); border-radius:8px; overflow:hidden; background:#fff; max-height:280px; overflow-y:auto;">
+              <img src="${paxObj.preview}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
+            </div>
+          `;
+        }
+        mediaHtml = `
+          <div style="margin:16px 0; padding:20px 18px; background:rgba(212, 175, 55, 0.08); border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
+            <div style="font-size:2.2rem; margin-bottom:6px;">⏳</div>
+            <strong style="color:var(--gold-light); font-size:1.05rem;">Live Waitlist Tracking • Train 13010 Doon Exp</strong>
+            <p style="font-size:0.85rem; color:#cbd5e1; margin-top:6px;">
+              ⚡ Booking: <strong>${paxObj.booking_status || 'WL 254–258'}</strong> ➔ Current Status: <strong style="color:#fbbf24;">${curStatusDisplay}</strong>
+            </p>
+            <div style="display:inline-block; margin-top:10px; background:rgba(16, 185, 129, 0.2); border:1px solid #10b981; color:#6ee7b7; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700;">
+              ${predDisplay} (ConfirmTkt Prediction)
+            </div>
+            ${previewBlock}
+          </div>
+        `;
+      } else if (type === 'pdf') {
+        mediaHtml = `
+          <div style="margin:16px 0; padding:28px 20px; background:#0b1912; border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
+            <div style="font-size:2.8rem; margin-bottom:8px;">📄</div>
+            <strong style="color:#fff; font-size:1.1rem; display:block;">Official IRCTC E-Ticket (PDF)</strong>
+            <span style="font-size:0.8rem; color:var(--text-muted);">${file}</span>
+          </div>
+        `;
+      } else {
+        mediaHtml = `
+          <div style="margin:16px 0; padding:24px 20px; background:#0b1912; border:1px dashed var(--border-dark); border-radius:10px; text-align:center;">
+            <div style="font-size:2.2rem; margin-bottom:6px;">🎫</div>
+            <strong style="color:var(--gold-light); font-size:1rem;">Indian Railways Booking Confirmation</strong>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Booking Reference: ${file}</p>
+          </div>
+        `;
+      }
+
+      let downloadHref = file;
+      let isDownloadable = (type === 'image' || type === 'pdf');
+      if (!isDownloadable) {
+        downloadHref = `https://www.confirmtkt.com/pnr-status/${pnrClean}`;
+      }
+
+      const actionButtonHtml = isWaitlisted ? `
+        <div style="display:flex; justify-content:center; gap:12px; margin-top:18px; flex-wrap:wrap;">
+          <a href="https://www.confirmtkt.com/pnr-status/${pnrClean}" target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
+            🔍 Check Live PNR Status ↗
+          </a>
+          <a href="${downloadHref}" download target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:rgba(212,175,55,0.2); border-color:var(--gold-primary); color:var(--gold-light);">
+            📥 Download Ticket (PDF)
+          </a>
+        </div>
+      ` : `
+        <div style="display:flex; justify-content:center; margin-top:18px;">
+          <a href="${downloadHref}" ${isDownloadable ? 'download' : ''} target="_blank" class="btn-ticket-view" style="padding:12px 32px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
+            📥 Download Ticket (PDF)
+          </a>
+        </div>
+      `;
+
+      content.innerHTML = `
+        <h3 style="font-family:'Cinzel'; color:var(--gold-primary); font-size:1.3rem; margin-bottom:4px; letter-spacing:0.04em;">
+          TRAIN TICKET COPY
+        </h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">
+          ${meta.title}
+        </p>
+
+        ${mediaHtml}
+
+        <div style="background:#091a13; border:1px solid var(--border-dark); border-radius:10px; padding:14px 16px; margin:16px 0;">
+          <div style="font-size:1.2rem; font-weight:800; color:#fff;">${name}</div>
+          <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.9rem; flex-wrap:wrap; gap:8px;">
+            <span>Coach: <strong style="color:var(--gold-light); font-size:1.05rem;">${coach}</strong></span>
+            <span>Booking: <strong style="color:#fff; font-size:1.05rem;">${paxObj.booking_status || seat}</strong></span>
+            ${paxObj.current_status ? `<span>Current Status: <strong style="color:#fbbf24; font-size:1.05rem;">${paxObj.current_status}</strong></span>` : ''}
+          </div>
+          <div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
+            PNR Number: <strong style="color:#fff; font-family:'JetBrains Mono';">${pnr}</strong>
+          </div>
+        </div>
+
+        ${actionButtonHtml}
+      `;
+
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('ticketModal').classList.remove('active');
+    }
+
+    function closeModalOnOutside(e) {
+      if (e.target.id === 'ticketModal') closeModal();
+    }
+
+    function copyPassText(name, coach, seat, berth, pnr) {
+      const meta = legDetails[activeLeg];
+      const text = `💍 Baraat Travel Pass • ${name}\\nTrain: ${meta.title}\\nCoach: ${coach} | Seat/Berth: ${seat} (${berth})\\nPNR: ${pnr}\\nCoordinator: +91 9024293714`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied Ticket to Clipboard!');
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
+    }
+  </script>
+</body>
+</html>"""
+
+html_code = template.replace('PASSENGERS_LEG1_JSON', json.dumps(passengers_leg1))
+html_code = html_code.replace('PASSENGERS_LEG2_JSON', json.dumps(passengers_leg2))
+html_code = html_code.replace('PASSENGERS_LEG3_JSON', json.dumps(passengers_leg3))
+
+with open("/Users/ejazanwar/Documents/Ejaz's wedding/baraat_travel_companion.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+with open("/Users/ejazanwar/Documents/Ejaz's wedding/baraat_travel_portal.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+with open("/Users/ejazanwar/Documents/Ejaz's wedding/index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print("Updated baraat_travel_companion.html, baraat_travel_portal.html, and index.html!")
