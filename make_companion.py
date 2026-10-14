@@ -1103,9 +1103,9 @@ template = """<!DOCTYPE html>
       },
       'leg2': {
         title: 'Train 12040 / Kathgodam Shatabdi',
-        coaches: ['C2 (8 Confirmed)', 'C3 (18 Confirmed)', 'C3 (TBD) (4 Waiting)'],
-        coachFilters: ['All', 'C2', 'C3', 'C3 (TBD)'],
-        paxTotal: '26 Confirmed Seats • 4 Waiting'
+        coaches: ['C2 (8 Confirmed)', 'C3 (24 Confirmed)'],
+        coachFilters: ['All', 'C2', 'C3'],
+        paxTotal: '32 Confirmed Seats (C2: 8, C3: 24)'
       },
       'leg3': {
         title: 'Train 13010 / Doon Express',
@@ -1265,11 +1265,7 @@ template = """<!DOCTYPE html>
 
       let list = filteredList || datasets[activeLeg];
       if (selectedCoachFilter !== 'All' && !filteredList) {
-        if (selectedCoachFilter === 'C3') {
-          list = list.filter(p => p.coach === 'C3');
-        } else {
-          list = list.filter(p => p.coach.includes(selectedCoachFilter));
-        }
+        list = list.filter(p => p.coach.includes(selectedCoachFilter));
       }
 
       const tbody = document.getElementById('tableBody');
