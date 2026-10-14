@@ -616,14 +616,29 @@ template = """<!DOCTYPE html>
 
     /* Coach Separator Row */
     tr.coach-divider-row td {
-      background: rgba(212, 175, 55, 0.08);
-      border-top: 2px solid var(--border-dark);
-      border-bottom: 2px solid var(--border-dark);
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.12) 0%, rgba(11, 25, 18, 0.7) 100%);
+      border-top: 1.5px solid rgba(212, 175, 55, 0.35);
+      border-bottom: 1.5px solid rgba(212, 175, 55, 0.2);
       padding: 10px 16px;
       font-weight: 800;
       color: var(--gold-primary);
       font-size: 0.85rem;
       letter-spacing: 0.05em;
+    }
+
+    .coach-bifurcation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-light);
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 6px;
+      padding: 2px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.02em;
     }
 
     /* Cell Badges */
@@ -1082,15 +1097,15 @@ template = """<!DOCTYPE html>
     const legDetails = {
       'leg1': {
         title: 'Train 12397 / Mahabodhi Express',
-        coaches: ['B1 (9 pax)', 'B2 (18 pax)', 'M3 (3 pax)'],
+        coaches: ['B1 (9 Confirmed)', 'B2 (18 Confirmed)', 'M3 (3 Confirmed)'],
         coachFilters: ['All', 'B1', 'B2', 'M3'],
-        paxTotal: '30 Confirmed Berths'
+        paxTotal: '30 Confirmed Berths (Confirm: 30, Waiting: 0)'
       },
       'leg2': {
         title: 'Train 12040 / Kathgodam Shatabdi',
-        coaches: ['C2 (8 pax - Groom Cluster)', 'C3 (18 pax)', 'Pending (4 pax)'],
-        coachFilters: ['All', 'C2', 'C3'],
-        paxTotal: '26 + 4 Seats'
+        coaches: ['C2 (8 Confirmed)', 'C3 (18 Confirmed)', 'C3 (TBD) (4 Waiting)'],
+        coachFilters: ['All', 'C2', 'C3', 'C3 (TBD)'],
+        paxTotal: '26 Confirmed Seats • 4 Waiting'
       },
       'leg3': {
         title: 'Train 13010 / Doon Express',
@@ -1161,6 +1176,34 @@ template = """<!DOCTYPE html>
       return 'c-b1';
     }
 
+    function getCoachStats(coachName, legKey = activeLeg) {
+      const paxList = datasets[legKey] || [];
+      const coachPax = paxList.filter(p => p.coach === coachName);
+      let confirmed = 0;
+      let waiting = 0;
+
+      coachPax.forEach(p => {
+        const cur = (p.current_status || '').toUpperCase();
+        const bkg = (p.booking_status || '').toUpperCase();
+        const st = (p.seat || '').toUpperCase();
+        const bth = (p.berth || '').toUpperCase();
+        const cch = (p.coach || '').toUpperCase();
+
+        const isWl = cur.includes('WL') || cur.includes('WAIT') || 
+                     bkg.includes('WL') || bkg.includes('WAIT') ||
+                     st.includes('WL') || bth.includes('WL') ||
+                     st === 'TBD' || cch.includes('TBD') || cur === 'PENDING' || p.type === 'pending';
+
+        if (isWl) {
+          waiting++;
+        } else {
+          confirmed++;
+        }
+      });
+
+      return { total: coachPax.length, confirmed, waiting };
+    }
+
     function renderCurrentLeg(filteredList = null) {
       const isLeg3 = (activeLeg === 'leg3');
       const meta = legDetails[activeLeg];
@@ -1222,7 +1265,11 @@ template = """<!DOCTYPE html>
 
       let list = filteredList || datasets[activeLeg];
       if (selectedCoachFilter !== 'All' && !filteredList) {
-        list = list.filter(p => p.coach.includes(selectedCoachFilter));
+        if (selectedCoachFilter === 'C3') {
+          list = list.filter(p => p.coach === 'C3');
+        } else {
+          list = list.filter(p => p.coach.includes(selectedCoachFilter));
+        }
       }
 
       const tbody = document.getElementById('tableBody');
@@ -1231,12 +1278,25 @@ template = """<!DOCTYPE html>
 
       list.forEach((p, index) => {
         // Coach separator divider row
-        if (p.coach !== lastCoach && !filteredList && selectedCoachFilter === 'All') {
+        if (p.coach !== lastCoach && !filteredList) {
           lastCoach = p.coach;
+          const stats = getCoachStats(p.coach);
           tableHtml += `
             <tr class="coach-divider-row">
               <td colspan="${isLeg3 ? '7' : '6'}">
-                ⚡ COACH ${p.coach}
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <div style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span style="color:var(--gold-primary); font-weight:800; font-size:0.92rem; letter-spacing:0.04em;">
+                      ⚡ COACH ${p.coach}
+                    </span>
+                    <span class="coach-bifurcation">
+                      ( <span style="color:#4ade80;">Confirm - ${stats.confirmed}</span> , <span style="${stats.waiting > 0 ? 'color:#fbbf24;' : 'color:#94a3b8;'}">Waiting - ${stats.waiting}</span> )
+                    </span>
+                  </div>
+                  <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; font-family:'JetBrains Mono', monospace;">
+                    ${stats.total} Guests Total
+                  </span>
+                </div>
               </td>
             </tr>
           `;
