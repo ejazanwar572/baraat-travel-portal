@@ -1,22 +1,34 @@
-# Tasks: Website Color Architecture Revamp (Option 1: Royal Champagne & Rose Blush)
+# Tasks: Sync Passenger Rosters with Handwritten Family List (24 Guests)
 
-- [x] Inspect existing styling and inline styles in `make_companion.py`
-- [x] Update CSS custom properties (:root variables) to Option 1 light luxury palette
-- [x] Update component CSS rules (body, header, countdown, journey tabs, tables, coach pills, buttons, modals)
-- [x] Update inline styles in JavaScript (e.g., `openLiveTicket()`, groom/father highlight)
-- [x] Regenerate `baraat_travel_companion.html`, `baraat_travel_portal.html`, and `index.html`
+- [x] Inspect Leg 1, Leg 2, and Leg 3 passenger arrays in `build_custom_portal.py`
+- [x] Replace placeholders in Leg 1 (Seat B1-43, B1-40, B1-45, B2-39, etc.) with real names:
+  - B1-43 (`M 60`): Md Shami Akhtar (60y)
+  - B1-40 (`M 16`): Md Alatamas Khan (16y)
+  - B1-45 (`M 19`): Md Shahid Anwar (19y)
+  - B2-26 (`M 57`): Mahtab Alam (57y)
+  - B2-11 (`M 54`): Md Azad Anwar (54y)
+  - B2-37 (`M 47`): Md Maaz Khan (47y)
+  - B2-30 (`M 40`): Sarfaraj Khan (40y)
+  - B2-29 (`M 44`): Minhaj Khan (44y)
+  - B2-48 (`M 29`): Mukhatib Alam (29y)
+  - B2-35 (`M 30`): Md Danish Alam (30y)
+  - B2-39 (`M 30`): Md Neyaz Anwar (28y)
+- [x] Update Leg 2 names and exact ages to match handwritten list:
+  - Md Azad Anwar (54y)
+  - Sarfaraj Khan (40y)
+  - Mukhatib Alam (29y)
+  - Tariq Alam (30y) [Joining from New Delhi]
+  - Sync all 24 ages
+- [x] Clean up Leg 3 to reflect realistic return without forcing placeholders
+- [x] Rebuild HTML files with `python3 make_companion.py`
 - [x] Verify zero diff between `baraat_travel_companion.html` and `index.html`
-- [x] Visually verify UI across Leg 1, Leg 2, Leg 3, and ticket modal via headless Chrome screenshots
-- [x] Commit, push to `origin/main`, and verify GitHub Pages deployment status
+- [x] Test and visually verify with Selenium screenshots
+- [x] Commit, push to `origin/main`, and confirm GitHub Pages build
 
 ## Review & Results
-- **Color Palette Revamp Applied**:
-  - Replaced heavy dark-green theme (`#07140e`) with Option 1: **Royal Champagne & Rose Blush**.
-  - Warm alabaster/milk silk canvas (`#faf7f5` with radial gradient), pure crisp white cards (`#ffffff`), and soft rose-champagne gilded borders (`#eed9d0` / `#ebd8cf`).
-  - Headings in deep royal espresso charcoal (`#1e1b18`) and burnished gold (`#b88a2b` / `#946b1d`).
-  - Coach pills revamped into high-contrast pastel badges with dark readable text.
-  - Ticket modals updated to crisp white container with soft dimmed backdrop and clean ticket display.
-- **Verification Completed**:
-  - Parity confirmed: 0 diff across `baraat_travel_companion.html`, `baraat_travel_portal.html`, and `index.html`.
-  - Visual verification: Headless Chrome screenshots captured and inspected for Leg 1, Leg 2, Leg 3, tables, confirmed modal, and waitlisted live modal.
-  - Deployment confirmed: GitHub Pages built successfully (`✓` status).
+- **100% Matching**: All 24 delegates from the handwritten list have been verified for exact spelling and ages.
+- **Leg 1**: 23 delegates boarding at Gaya + 7 additional family/friends (30 berths confirmed). Md Danish Alam (30y) confirmed in B2-35. Zero placeholders.
+- **Leg 2**: All 24 delegates present including Tariq Alam (30y) joining from New Delhi + 8 additional guests (32 seats confirmed in C2 and C3).
+- **Leg 3**: 30 seats across 1A (4), B2 (8), 3A waitlist (8), and S4 Sleeper (10). Zero placeholders.
+- **Parity**: `baraat_travel_companion.html` and `index.html` have 0 diff.
+- **Visuals**: Verified via Selenium headless browser screenshots across all three tabs.
