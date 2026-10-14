@@ -1,26 +1,21 @@
-# Tasks: Wedding Invitation Soft Copy PDF Generation
+# Tasks: Website Color Architecture Revamp (Option 1: Royal Champagne & Rose Blush)
 
-- [x] Plan and analyze aesthetic variants preserving card architecture and color palette
-- [x] Process card assets: Segment and remove bedsheet/photo background (outer and lattice cutouts)
-- [x] Variant 1: Pristine Physical-Card Studio Composite (Isolated cards with authentic cutouts & clean luxury backdrop)
-- [x] Variant 2: Elegant Digital Vector Twin (Pixel-perfect digital recreation matching typography, Arabesque calligraphy, jali & florals)
-- [x] Variant 3: Royal WhatsApp Mobile-Spread (Seamless 2-page story / dual-card showcase with gold trim & floral embellishments)
-- [x] Render high-resolution print-quality PDFs using Chrome headless (or vector engine)
-- [x] Generate visual preview images and inspect for fidelity, legibility, and aesthetics
-- [x] Present variants to the user with download links and visual previews
+- [x] Inspect existing styling and inline styles in `make_companion.py`
+- [x] Update CSS custom properties (:root variables) to Option 1 light luxury palette
+- [x] Update component CSS rules (body, header, countdown, journey tabs, tables, coach pills, buttons, modals)
+- [x] Update inline styles in JavaScript (e.g., `openLiveTicket()`, groom/father highlight)
+- [x] Regenerate `baraat_travel_companion.html`, `baraat_travel_portal.html`, and `index.html`
+- [x] Verify zero diff between `baraat_travel_companion.html` and `index.html`
+- [x] Visually verify UI across Leg 1, Leg 2, Leg 3, and ticket modal via headless Chrome screenshots
+- [ ] Commit, push to `origin/main`, and verify GitHub Pages deployment status
 
 ## Review & Results
-- **Asset Processing Complete**: Cleaned Arabic calligraphy vectors (`بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ` and `دعوتِ ولیمہ`), quatrefoil Moroccan jali patterns, and isolated physical cards with clean cutout linings.
-- **Variant 1 Created (Royal Digital Masterpiece)**:
-  - 2-Page high-resolution PDF (`Variant_1_Royal_Digital_Masterpiece.pdf`).
-  - Page 1: Reception Ceremony on warm ivory with Bismillah, Anwar Family, and Ejaz & Iqura in flowing cursive calligraphy flanked by laser-cut Moroccan jali wings.
-  - Page 2: Programme on soft pastel sage green with Daawat-e-Walima, Milad-un-Nabi, Rasm-e-Manjha, Walima box, Hotel Palm Garden Gaya venue block, WBCF, and RSVP.
-- **Variant 2 Created (Studio Physical Keepsake Folio)**:
-  - High-res PDF (`Variant_2_Studio_Physical_Composite.pdf`).
-  - Open wedding card folio spread (`Variant_2_Spread_Preview.png`) and 2-page portrait presentation. Removes all bedsheet fabric, fills laser-cut holes with ivory paper, and mounts both physical cards with realistic soft drop shadow.
-- **Variant 3 Created (Royal WhatsApp Mobile Duo)**:
-  - Mobile-first PDF (`Variant_3_Royal_WhatsApp_Duo.pdf`) and preview (`Variant_3_Mobile_Preview.png`).
-  - Both cards unified in a seamless vertical scroll with gold foil dividers, high mobile contrast, and easy smartphone readability.
-- **Distribution**: All PDFs and PNG previews are generated in `/Users/ejazanwar/Documents/Ejaz's wedding/invitation_variants/` and also copied directly to `/Users/ejazanwar/Downloads/`.
-
-
+- **Color Palette Revamp Applied**:
+  - Replaced heavy dark-green theme (`#07140e`) with Option 1: **Royal Champagne & Rose Blush**.
+  - Warm alabaster/milk silk canvas (`#faf7f5` with radial gradient), pure crisp white cards (`#ffffff`), and soft rose-champagne gilded borders (`#eed9d0` / `#ebd8cf`).
+  - Headings in deep royal espresso charcoal (`#1e1b18`) and burnished gold (`#b88a2b` / `#946b1d`).
+  - Coach pills revamped into high-contrast pastel badges with dark readable text.
+  - Ticket modals updated to crisp white container with soft dimmed backdrop and clean ticket display.
+- **Verification Completed**:
+  - Parity confirmed: 0 diff across `baraat_travel_companion.html`, `baraat_travel_portal.html`, and `index.html`.
+  - Visual verification: Headless Chrome screenshots captured and inspected for Leg 1, Leg 2, Leg 3, tables, confirmed modal, and waitlisted live modal.

@@ -7,33 +7,35 @@
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="icon" type="image/png" href="favicon.png">
-  <meta name="theme-color" content="#0e2319">
+  <meta name="theme-color" content="#faf7f5">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #07140e;
-      --surface-dark: #0e2319;
-      --card-dark: #132e22;
-      --card-hover: #183a2b;
-      --border-dark: #1f4734;
-      --gold-primary: #d4af37;
-      --gold-light: #f5d77f;
-      --gold-gradient: linear-gradient(135deg, #f5d77f 0%, #d4af37 50%, #aa820a 100%);
-      --emerald-gradient: radial-gradient(circle at 50% 0%, #164232 0%, #07140e 85%);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-gold: #f5d77f;
-      --accent-green: #10b981;
-      --accent-blue: #38bdf8;
+      --bg-dark: #faf7f5;
+      --surface-dark: #ffffff;
+      --card-dark: #ffffff;
+      --card-hover: #fdf8f6;
+      --border-dark: #ebd8cf;
+      --gold-primary: #b88a2b;
+      --gold-light: #946b1d;
+      --gold-gradient: linear-gradient(135deg, #b88a2b 0%, #c45b73 50%, #946b1d 100%);
+      --emerald-gradient: radial-gradient(circle at 50% 0%, #fff6f0 0%, #f5ede6 100%);
+      --text-main: #1e1b18;
+      --text-muted: #786e68;
+      --text-gold: #946b1d;
+      --accent-green: #059669;
+      --accent-blue: #0284c7;
+      --rose-accent: #b85d75;
+      --rose-subtle: rgba(184, 93, 117, 0.08);
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      --shadow-luxury: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
-      --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.25);
+      --shadow-luxury: 0 10px 30px -5px rgba(184, 93, 117, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+      --shadow-gold: 0 4px 18px rgba(184, 138, 43, 0.18);
     }
 
     * {
@@ -71,7 +73,7 @@
       color: var(--gold-primary);
       letter-spacing: 0.1em;
       margin-bottom: 12px;
-      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+      text-shadow: 0 1px 4px rgba(184, 138, 43, 0.2);
     }
 
     .fleuron {
@@ -82,12 +84,12 @@
     }
 
     .header-card {
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      background: rgba(14, 35, 25, 0.85);
+      border: 1.5px solid rgba(184, 138, 43, 0.35);
+      background: #ffffff;
       backdrop-filter: blur(12px);
       border-radius: var(--radius-lg);
       padding: 32px 20px;
-      box-shadow: var(--shadow-luxury);
+      box-shadow: 0 12px 32px rgba(184, 93, 117, 0.07), 0 2px 8px rgba(0, 0, 0, 0.04);
       max-width: 900px;
       margin: 0 auto 20px;
       position: relative;
@@ -106,7 +108,7 @@
       font-family: 'Cinzel', serif;
       font-size: clamp(2rem, 5vw, 3.6rem);
       font-weight: 800;
-      background: var(--gold-gradient);
+      background: linear-gradient(135deg, #946b1d 0%, #b85d75 50%, #784a1e 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1.15;
@@ -117,21 +119,21 @@
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-size: clamp(1.8rem, 4vw, 2.8rem);
-      color: #ffffff;
+      color: #1e1b18;
       margin-bottom: 12px;
     }
 
     .quran-verse {
       font-size: clamp(0.85rem, 2vw, 1.05rem);
       font-style: italic;
-      color: #cbd5e1;
+      color: #574f48;
       font-weight: 400;
     }
 
     /* 2. Timer & Relevant Details Bar (Two-Row Layout) */
     .timer-stats-bar {
-      background: rgba(19, 46, 34, 0.95);
-      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: #ffffff;
+      border: 1.5px solid rgba(184, 138, 43, 0.35);
       border-radius: var(--radius-lg);
       padding: 24px 28px;
       display: flex;
@@ -139,7 +141,7 @@
       align-items: center;
       justify-content: center;
       gap: 18px;
-      box-shadow: var(--shadow-luxury), 0 0 25px rgba(212, 175, 55, 0.12);
+      box-shadow: var(--shadow-luxury), 0 0 25px rgba(184, 138, 43, 0.08);
       max-width: 960px;
       margin: 0 auto 30px;
     }
@@ -154,11 +156,11 @@
     .cd-unit {
       text-align: center;
       min-width: 64px;
-      background: rgba(7, 20, 14, 0.65);
-      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: #fdf8f6;
+      border: 1px solid rgba(184, 138, 43, 0.25);
       border-radius: 10px;
       padding: 8px 14px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+      box-shadow: inset 0 1px 3px rgba(184, 93, 117, 0.06);
     }
 
     .cd-val {
@@ -168,7 +170,7 @@
       color: var(--gold-light);
       line-height: 1;
       display: block;
-      text-shadow: 0 2px 14px rgba(212, 175, 55, 0.4);
+      text-shadow: 0 1px 4px rgba(184, 138, 43, 0.15);
     }
 
     .cd-lbl {
@@ -195,10 +197,10 @@
       justify-content: center;
       gap: 12px;
       font-size: 0.88rem;
-      color: #cbd5e1;
+      color: #574f48;
       flex-wrap: wrap;
       width: 100%;
-      border-top: 1px solid rgba(31, 71, 52, 0.75);
+      border-top: 1px solid #eed9d0;
       padding-top: 16px;
     }
 
@@ -206,7 +208,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(14, 35, 25, 0.85);
+      background: #fdf8f6;
       border: 1px solid var(--border-dark);
       padding: 6px 14px;
       border-radius: 9999px;
@@ -214,14 +216,14 @@
     }
     .meta-pill:hover {
       border-color: var(--gold-primary);
-      background: rgba(24, 58, 43, 0.95);
+      background: #ffffff;
     }
     .meta-pill strong {
-      color: #ffffff;
+      color: #1e1b18;
     }
 
     .meta-link {
-      color: #ffffff;
+      color: var(--gold-light);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -229,7 +231,7 @@
       transition: color 0.15s;
     }
     .meta-link:hover {
-      color: var(--gold-light);
+      color: var(--rose-accent);
       text-decoration: underline;
     }
 
@@ -261,14 +263,14 @@
 
     .journey-tab-btn:hover {
       border-color: var(--gold-primary);
-      background: var(--card-dark);
+      background: var(--card-hover);
       color: var(--text-main);
     }
 
     .journey-tab-btn.active {
-      background: linear-gradient(135deg, #1b4332 0%, #132e22 100%);
+      background: linear-gradient(135deg, #fff9f6 0%, #fdf3ef 100%);
       border-color: var(--gold-primary);
-      color: #ffffff;
+      color: #1e1b18;
       box-shadow: var(--shadow-gold);
     }
 
@@ -292,7 +294,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #ffffff;
+      color: #1e1b18;
     }
 
     .tab-train-sub {
@@ -308,8 +310,8 @@
       grid-template-columns: 1fr;
       gap: 6px;
       margin-top: 4px;
-      background: rgba(7, 20, 14, 0.6);
-      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: #ffffff;
+      border: 1px solid rgba(184, 138, 43, 0.2);
       border-radius: var(--radius-sm);
       padding: 8px 10px;
     }
@@ -329,23 +331,23 @@
     }
 
     .timing-type.dep {
-      color: #34d399;
+      color: #059669;
     }
 
     .timing-type.arr {
-      color: #38bdf8;
+      color: #0284c7;
     }
 
     .timing-val {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
-      color: #ffffff;
+      color: #1e1b18;
       font-size: 0.82rem;
     }
 
     /* Coach Filters Bar (Replaced redundant train details) */
     .coach-filters-bar {
-      background: var(--card-dark);
+      background: var(--surface-dark);
       border: 1px solid var(--border-dark);
       border-radius: var(--radius-md);
       padding: 14px 18px;
@@ -380,9 +382,9 @@
     }
 
     .badge-pill {
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      color: var(--gold-light);
+      background: #fdf8f6;
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
       padding: 6px 14px;
       border-radius: 9999px;
       font-size: 0.82rem;
@@ -393,21 +395,21 @@
 
     .badge-pill:hover, .badge-pill.active {
       background: var(--gold-primary);
-      color: #07140e;
+      color: #ffffff;
       border-color: var(--gold-primary);
-      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 10px rgba(184, 138, 43, 0.25);
     }
 
     .badge-pill.green {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.3);
-      color: #34d399;
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #065f46;
       cursor: default;
     }
 
     /* Live Waitlist & Status Badges */
     .btn-refresh-wl {
-      background: rgba(212, 175, 55, 0.14);
+      background: #fdf8f6;
       border: 1px solid var(--gold-primary);
       color: var(--gold-light);
       font-size: 0.8rem;
@@ -419,13 +421,13 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
     .btn-refresh-wl:hover {
       background: var(--gold-primary);
-      color: #07140e;
-      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(184, 138, 43, 0.25);
       transform: translateY(-1px);
     }
 
@@ -445,9 +447,9 @@
     }
 
     .status-badge-cnf {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 6px;
@@ -459,9 +461,9 @@
     }
 
     .status-badge-wl {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.5);
-      color: #fbbf24;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #b45309;
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 6px;
@@ -470,13 +472,13 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+      box-shadow: 0 1px 4px rgba(245, 158, 11, 0.12);
     }
 
     .chance-tag {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: #7dd3fc;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
       font-weight: 700;
       font-size: 0.72rem;
       padding: 2px 6px;
@@ -485,12 +487,12 @@
 
     /* Layover Notice for New Delhi */
     .layover-banner {
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
       border-radius: var(--radius-sm);
       padding: 12px 16px;
       font-size: 0.85rem;
-      color: #e0f2fe;
+      color: #075985;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
@@ -519,7 +521,7 @@
       border: 1.5px solid var(--border-dark);
       padding: 10px 14px 10px 38px;
       border-radius: var(--radius-sm);
-      color: #fff;
+      color: var(--text-main);
       font-size: 0.9rem;
       outline: none;
       transition: all 0.2s;
@@ -527,7 +529,7 @@
 
     .search-input:focus {
       border-color: var(--gold-primary);
-      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 0 0 3px rgba(184, 138, 43, 0.15);
     }
 
     .search-icon {
@@ -560,13 +562,13 @@
     }
 
     .btn-tool:hover {
-      color: #fff;
+      color: var(--text-main);
       border-color: var(--gold-primary);
     }
 
     .btn-tool.active {
       background: var(--gold-primary);
-      color: #07140e;
+      color: #ffffff;
       border-color: var(--gold-primary);
     }
 
@@ -589,35 +591,36 @@
     }
 
     table.passenger-table th {
-      background: #091a13;
-      color: var(--gold-light);
+      background: #faf4ef;
+      color: var(--text-muted);
       padding: 14px 16px;
       font-weight: 700;
       font-size: 0.8rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      border-bottom: 2px solid var(--border-dark);
+      border-bottom: 2px solid #eed9d0;
       white-space: nowrap;
     }
 
     table.passenger-table td {
       padding: 14px 16px;
-      border-bottom: 1px solid rgba(31, 71, 52, 0.6);
+      border-bottom: 1px solid #f1e4dc;
       vertical-align: middle;
+      color: var(--text-main);
     }
 
     table.passenger-table tr:hover td {
-      background: rgba(24, 58, 43, 0.5);
+      background: #fdf9f7;
     }
 
     /* Coach Separator Row */
     tr.coach-divider-row td {
-      background: linear-gradient(90deg, rgba(212, 175, 55, 0.12) 0%, rgba(11, 25, 18, 0.7) 100%);
-      border-top: 1.5px solid rgba(212, 175, 55, 0.35);
-      border-bottom: 1.5px solid rgba(212, 175, 55, 0.2);
+      background: linear-gradient(90deg, #fbf0e8 0%, #ffffff 100%);
+      border-top: 1.5px solid #eed9d0;
+      border-bottom: 1.5px solid #eed9d0;
       padding: 10px 16px;
       font-weight: 800;
-      color: var(--gold-primary);
+      color: #946b1d;
       font-size: 0.85rem;
       letter-spacing: 0.05em;
     }
@@ -626,9 +629,9 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.82rem;
       font-weight: 700;
-      color: var(--text-light);
-      background: rgba(0, 0, 0, 0.38);
-      border: 1px solid rgba(212, 175, 55, 0.28);
+      color: #574f48;
+      background: #ffffff;
+      border: 1px solid #ebd8cf;
       border-radius: 6px;
       padding: 2px 10px;
       display: inline-flex;
@@ -646,74 +649,74 @@
       border-radius: 6px;
       font-size: 0.85rem;
       letter-spacing: 0.03em;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     }
 
-    /* Distinct highlight color per coach */
+    /* Distinct pastel highlight per coach with high text contrast */
     .coach-pill.c-b1 {
-      background: rgba(245, 158, 11, 0.22);
+      background: #fef3c7;
       border: 1.5px solid #f59e0b;
-      color: #fbbf24;
+      color: #92400e;
     }
 
     .coach-pill.c-b2 {
-      background: rgba(14, 165, 233, 0.22);
-      border: 1.5px solid #0ea5e9;
-      color: #38bdf8;
+      background: #ffedd5;
+      border: 1.5px solid #ea580c;
+      color: #9a3412;
     }
 
     .coach-pill.c-s4 {
-      background: rgba(20, 184, 166, 0.22);
-      border: 1.5px solid #14b8a6;
-      color: #2dd4bf;
+      background: #ccfbf1;
+      border: 1.5px solid #0d9488;
+      color: #115e59;
     }
 
     .coach-pill.c-tbd {
-      background: rgba(148, 163, 184, 0.2);
+      background: #f1f5f9;
       border: 1.5px solid #94a3b8;
-      color: #cbd5e1;
+      color: #475569;
     }
 
     .coach-pill.c-m2 {
-      background: rgba(16, 185, 129, 0.22);
-      border: 1.5px solid #10b981;
-      color: #34d399;
+      background: #e0e7ff;
+      border: 1.5px solid #6366f1;
+      color: #3730a3;
     }
 
     .coach-pill.c-m3 {
-      background: rgba(6, 182, 212, 0.22);
-      border: 1.5px solid #06b6d4;
-      color: #22d3ee;
+      background: #dbeafe;
+      border: 1.5px solid #3b82f6;
+      color: #1e40af;
     }
 
     .coach-pill.c-c2 {
-      background: rgba(59, 130, 246, 0.22);
-      border: 1.5px solid #3b82f6;
-      color: #60a5fa;
+      background: #fce7f3;
+      border: 1.5px solid #db2777;
+      color: #831843;
     }
 
     .coach-pill.c-c3 {
-      background: rgba(168, 85, 247, 0.24);
-      border: 1.5px solid #a855f7;
-      color: #c084fc;
+      background: #f3e8ff;
+      border: 1.5px solid #9333ea;
+      color: #581c87;
     }
 
     .coach-pill.c-1a {
-      background: rgba(234, 179, 8, 0.25);
-      border: 1.5px solid #eab308;
-      color: #fef08a;
-      box-shadow: 0 0 10px rgba(234, 179, 8, 0.25);
+      background: #fef9c3;
+      border: 1.5px solid #ca8a04;
+      color: #713f12;
+      box-shadow: 0 0 8px rgba(202, 138, 4, 0.15);
     }
 
     .coach-pill.c-3a {
-      background: rgba(249, 115, 22, 0.24);
-      border: 1.5px solid #f97316;
-      color: #fb923c;
+      background: #ffedd5;
+      border: 1.5px solid #d97706;
+      color: #78350f;
     }
 
     .name-cell {
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -728,18 +731,19 @@
       border-radius: 50%;
       font-size: 0.75rem;
       font-weight: 800;
-      background: rgba(255, 255, 255, 0.1);
-      color: #cbd5e1;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
     }
 
     .gender-pill.female {
-      background: rgba(244, 114, 182, 0.2);
-      color: #f472b6;
-      border: 1px solid rgba(244, 114, 182, 0.4);
+      background: #fce7f3;
+      color: #be185d;
+      border: 1px solid #fbcfe8;
     }
 
     .berth-cell strong {
-      color: #ffffff;
+      color: var(--text-main);
       display: block;
       font-size: 0.95rem;
     }
@@ -756,8 +760,8 @@
     }
 
     .btn-ticket-view {
-      background: var(--gold-gradient);
-      color: #07140e;
+      background: linear-gradient(135deg, #c59837 0%, #aa7c1e 100%);
+      color: #ffffff;
       border: none;
       padding: 6px 12px;
       border-radius: 6px;
@@ -770,9 +774,10 @@
       white-space: nowrap;
       transition: all 0.15s;
       text-decoration: none;
+      box-shadow: 0 2px 6px rgba(184, 138, 43, 0.25);
     }
     .btn-ticket-view:hover {
-      filter: brightness(1.15);
+      filter: brightness(1.1);
       transform: translateY(-1px);
     }
 
@@ -801,7 +806,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(30, 27, 24, 0.65);
       backdrop-filter: blur(8px);
       z-index: 9999;
       display: none;
@@ -815,25 +820,26 @@
     }
 
     .modal-window {
-      background: var(--card-dark);
-      border: 1px solid var(--gold-primary);
+      background: #ffffff;
+      border: 1.5px solid var(--gold-primary);
       border-radius: var(--radius-lg);
       max-width: 740px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 25px 60px rgba(30, 27, 24, 0.35);
       position: relative;
       padding: 24px;
+      color: var(--text-main);
     }
 
     .modal-close {
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: #fff;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #475569;
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -842,6 +848,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.15s;
+    }
+    .modal-close:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
     }
 
     /* Card view for mobile */
@@ -868,12 +879,12 @@
       left: 50%;
       transform: translateX(-50%);
       background: var(--gold-primary);
-      color: #07140e;
+      color: #ffffff;
       padding: 8px 18px;
       border-radius: 9999px;
       font-weight: 700;
       font-size: 0.85rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       display: none;
       z-index: 10000;
     }
@@ -1282,7 +1293,7 @@
                       ⚡ COACH ${p.coach}
                     </span>
                     <span class="coach-bifurcation">
-                      ( <span style="color:#4ade80;">Confirm - ${stats.confirmed}</span> , <span style="${stats.waiting > 0 ? 'color:#fbbf24;' : 'color:#94a3b8;'}">Waiting - ${stats.waiting}</span> )
+                      ( <span style="color:#059669; font-weight:800;">Confirm - ${stats.confirmed}</span> , <span style="${stats.waiting > 0 ? 'color:#d97706; font-weight:800;' : 'color:#786e68;'}">Waiting - ${stats.waiting}</span> )
                     </span>
                   </div>
                   <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; font-family:'JetBrains Mono', monospace;">
@@ -1300,9 +1311,9 @@
 
         let badgeHtml = '';
         if (isGroom) {
-          badgeHtml = '<span style="font-size:0.75rem; background:var(--gold-primary); color:#07140e; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM</span>';
+          badgeHtml = '<span style="font-size:0.75rem; background:#946b1d; color:#ffffff; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM</span>';
         } else if (isFather) {
-          badgeHtml = '<span style="font-size:0.75rem; background:var(--gold-primary); color:#07140e; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM&#39;S FATHER</span>';
+          badgeHtml = '<span style="font-size:0.75rem; background:#946b1d; color:#ffffff; font-weight:800; padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">GROOM&#39;S FATHER</span>';
         }
 
         let currentStatusCell = '';
@@ -1316,7 +1327,7 @@
           } else if (p.current_status === 'Pending' || p.current_status === 'TBD') {
             currentStatusCell = `
               <td>
-                <span class="status-badge-wl" style="background:rgba(148,163,184,0.15); color:#94a3b8; border-color:#64748b;">⏳ Pending</span>
+                <span class="status-badge-wl" style="background:#f1f5f9; color:#64748b; border:1px solid #cbd5e1;">⏳ Pending</span>
               </td>
             `;
           } else {
@@ -1334,7 +1345,7 @@
         }
 
         tableHtml += `
-          <tr style="${(isGroom || isFather) ? 'background: rgba(212, 175, 55, 0.08);' : ''}">
+          <tr style="${(isGroom || isFather) ? 'background: rgba(184, 138, 43, 0.08);' : ''}">
             <td style="font-family:'JetBrains Mono'; font-weight:bold; color:var(--text-muted);">${p.sno}</td>
             <td>
               <span class="coach-pill ${coachClass}">${p.coach}</span>
@@ -1469,7 +1480,7 @@
       if (type === 'image' || (previewImg && !isWaitlisted)) {
         const imgSrc = (type === 'image') ? file : previewImg;
         mediaHtml = `
-          <div style="margin:16px 0; border:1px solid var(--border-dark); border-radius:10px; overflow:hidden; background:#fff; text-align:center; max-height:460px; overflow-y:auto; box-shadow:0 4px 15px rgba(0,0,0,0.5);">
+          <div style="margin:16px 0; border:1px solid var(--border-dark); border-radius:10px; overflow:hidden; background:#fff; text-align:center; max-height:460px; overflow-y:auto; box-shadow:0 4px 15px rgba(0,0,0,0.12);">
             <img src="${imgSrc}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
           </div>
         `;
@@ -1485,13 +1496,13 @@
           `;
         }
         mediaHtml = `
-          <div style="margin:16px 0; padding:20px 18px; background:rgba(212, 175, 55, 0.08); border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
+          <div style="margin:16px 0; padding:20px 18px; background:#fff9f6; border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
             <div style="font-size:2.2rem; margin-bottom:6px;">⏳</div>
             <strong style="color:var(--gold-light); font-size:1.05rem;">Live Waitlist Tracking • Train 13010 Doon Exp</strong>
-            <p style="font-size:0.85rem; color:#cbd5e1; margin-top:6px;">
-              ⚡ Booking: <strong>${paxObj.booking_status || 'WL 254–258'}</strong> ➔ Current Status: <strong style="color:#fbbf24;">${curStatusDisplay}</strong>
+            <p style="font-size:0.85rem; color:#574f48; margin-top:6px;">
+              ⚡ Booking: <strong>${paxObj.booking_status || 'WL 254–258'}</strong> ➔ Current Status: <strong style="color:#b45309;">${curStatusDisplay}</strong>
             </p>
-            <div style="display:inline-block; margin-top:10px; background:rgba(16, 185, 129, 0.2); border:1px solid #10b981; color:#6ee7b7; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700;">
+            <div style="display:inline-block; margin-top:10px; background:#ecfdf5; border:1px solid #10b981; color:#047857; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700;">
               ${predDisplay} (ConfirmTkt Prediction)
             </div>
             ${previewBlock}
@@ -1499,15 +1510,15 @@
         `;
       } else if (type === 'pdf') {
         mediaHtml = `
-          <div style="margin:16px 0; padding:28px 20px; background:#0b1912; border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
+          <div style="margin:16px 0; padding:28px 20px; background:#fdf8f6; border:1px dashed var(--gold-primary); border-radius:10px; text-align:center;">
             <div style="font-size:2.8rem; margin-bottom:8px;">📄</div>
-            <strong style="color:#fff; font-size:1.1rem; display:block;">Official IRCTC E-Ticket (PDF)</strong>
+            <strong style="color:var(--text-main); font-size:1.1rem; display:block;">Official IRCTC E-Ticket (PDF)</strong>
             <span style="font-size:0.8rem; color:var(--text-muted);">${file}</span>
           </div>
         `;
       } else {
         mediaHtml = `
-          <div style="margin:16px 0; padding:24px 20px; background:#0b1912; border:1px dashed var(--border-dark); border-radius:10px; text-align:center;">
+          <div style="margin:16px 0; padding:24px 20px; background:#fdf8f6; border:1px dashed var(--border-dark); border-radius:10px; text-align:center;">
             <div style="font-size:2.2rem; margin-bottom:6px;">🎫</div>
             <strong style="color:var(--gold-light); font-size:1rem;">Indian Railways Booking Confirmation</strong>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Booking Reference: ${file}</p>
@@ -1526,7 +1537,7 @@
           <a href="https://www.confirmtkt.com/pnr-status/${pnrClean}" target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
             🔍 Check Live PNR Status ↗
           </a>
-          <a href="${downloadHref}" download target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:rgba(212,175,55,0.2); border-color:var(--gold-primary); color:var(--gold-light);">
+          <a href="${downloadHref}" download target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#fdf8f6; border:1.5px solid var(--gold-primary); color:var(--gold-light);">
             📥 Download Ticket
           </a>
         </div>
@@ -1548,15 +1559,15 @@
 
         ${mediaHtml}
 
-        <div style="background:#091a13; border:1px solid var(--border-dark); border-radius:10px; padding:14px 16px; margin:16px 0;">
-          <div style="font-size:1.2rem; font-weight:800; color:#fff;">${name}</div>
+        <div style="background:#fdf8f6; border:1px solid var(--border-dark); border-radius:10px; padding:14px 16px; margin:16px 0;">
+          <div style="font-size:1.2rem; font-weight:800; color:var(--text-main);">${name}</div>
           <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.9rem; flex-wrap:wrap; gap:8px;">
             <span>Coach: <strong style="color:var(--gold-light); font-size:1.05rem;">${coach}</strong></span>
-            <span>Booking: <strong style="color:#fff; font-size:1.05rem;">${paxObj.booking_status || seat}</strong></span>
-            ${paxObj.current_status ? `<span>Current Status: <strong style="color:#fbbf24; font-size:1.05rem;">${paxObj.current_status}</strong></span>` : ''}
+            <span>Booking: <strong style="color:var(--text-main); font-size:1.05rem;">${paxObj.booking_status || seat}</strong></span>
+            ${paxObj.current_status ? `<span>Current Status: <strong style="color:#b45309; font-size:1.05rem;">${paxObj.current_status}</strong></span>` : ''}
           </div>
           <div style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
-            PNR Number: <strong style="color:#fff; font-family:'JetBrains Mono';">${pnr}</strong>
+            PNR Number: <strong style="color:var(--text-main); font-family:'JetBrains Mono';">${pnr}</strong>
           </div>
         </div>
 
