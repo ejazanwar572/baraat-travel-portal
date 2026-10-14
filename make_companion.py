@@ -651,6 +651,12 @@ template = """<!DOCTYPE html>
       color: #38bdf8;
     }
 
+    .coach-pill.c-s4 {
+      background: rgba(20, 184, 166, 0.22);
+      border: 1.5px solid #14b8a6;
+      color: #2dd4bf;
+    }
+
     .coach-pill.c-tbd {
       background: rgba(148, 163, 184, 0.2);
       border: 1.5px solid #94a3b8;
@@ -1088,9 +1094,9 @@ template = """<!DOCTYPE html>
       },
       'leg3': {
         title: 'Train 13010 / Doon Express',
-        coaches: ['1A (4 Confirmed)', 'B2 (8 Confirmed)', '3A (8 Waitlist: GNWL 52–76)', 'TBD (10 Guests)'],
-        coachFilters: ['All', '1A', 'B2', '3A', 'TBD'],
-        paxTotal: '12 Confirmed (1A: 4, B2: 8) • 8 Waitlist (3A) • 10 TBD'
+        coaches: ['1A (4 Confirmed)', 'B2 (8 Confirmed)', 'S4 (10 Confirmed)', '3A (8 Waitlist Backups)'],
+        coachFilters: ['All', '1A', 'B2', 'S4', '3A'],
+        paxTotal: '22 Confirmed Berths (1A: 4, B2: 8, S4: 10) • 8 3A Waitlist'
       }
     };
 
@@ -1144,6 +1150,7 @@ template = """<!DOCTYPE html>
       const c = (coach || '').toUpperCase();
       if (c.includes('B1')) return 'c-b1';
       if (c.includes('B2')) return 'c-b2';
+      if (c.includes('S4') || c.includes('SL')) return 'c-s4';
       if (c.includes('M2')) return 'c-m2';
       if (c.includes('M3')) return 'c-m3';
       if (c.includes('C2')) return 'c-c2';
@@ -1375,7 +1382,7 @@ template = """<!DOCTYPE html>
         const now = new Date();
         const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
         legDetails['leg3'].lastRefreshed = timeStr;
-        legDetails['leg3'].paxTotal = `12 Confirmed (1A: 4, B2: 8) • 8 Waitlist (3A) • 10 TBD`;
+        legDetails['leg3'].paxTotal = '22 Confirmed Berths (1A: 4, B2: 8, S4: 10) • 8 3A Waitlist';
 
         renderCurrentLeg();
         showToast(`⚡ Refreshed ${updatedCount} tickets live (${timeStr})!`);
@@ -1401,9 +1408,14 @@ template = """<!DOCTYPE html>
       const paxObj = datasets[activeLeg]?.find(x => x.name === name) || {};
       const isWaitlisted = seat.includes('WL') || berth.includes('WL') || pnrClean === '2842426597' || (paxObj.current_status && paxObj.current_status.includes('WL'));
 
+      let previewImg = paxObj.preview;
+      if (!previewImg && file && typeof file === 'string' && file.endsWith('.pdf')) {
+        previewImg = file.includes('_preview') ? file.replace(/\.pdf$/i, '.png') : file.replace(/\.pdf$/i, '_preview.png');
+      }
+
       let mediaHtml = '';
-      if (type === 'image' || (type === 'pdf' && paxObj.preview && !isWaitlisted)) {
-        const imgSrc = (type === 'image') ? file : paxObj.preview;
+      if (type === 'image' || (previewImg && !isWaitlisted)) {
+        const imgSrc = (type === 'image') ? file : previewImg;
         mediaHtml = `
           <div style="margin:16px 0; border:1px solid var(--border-dark); border-radius:10px; overflow:hidden; background:#fff; text-align:center; max-height:460px; overflow-y:auto; box-shadow:0 4px 15px rgba(0,0,0,0.5);">
             <img src="${imgSrc}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
@@ -1413,10 +1425,10 @@ template = """<!DOCTYPE html>
         const curStatusDisplay = paxObj.current_status || 'GNWL 72–76';
         const predDisplay = paxObj.prediction || 'High Confirmation Chance: 55% – 76%';
         let previewBlock = '';
-        if (paxObj.preview) {
+        if (previewImg) {
           previewBlock = `
             <div style="margin:14px 0 0; border:1px solid var(--border-dark); border-radius:8px; overflow:hidden; background:#fff; max-height:280px; overflow-y:auto;">
-              <img src="${paxObj.preview}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
+              <img src="${previewImg}" alt="Train Ticket Copy" style="max-width:100%; display:block; margin:0 auto;">
             </div>
           `;
         }
@@ -1463,13 +1475,13 @@ template = """<!DOCTYPE html>
             🔍 Check Live PNR Status ↗
           </a>
           <a href="${downloadHref}" download target="_blank" class="btn-ticket-view" style="padding:12px 24px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:rgba(212,175,55,0.2); border-color:var(--gold-primary); color:var(--gold-light);">
-            📥 Download Ticket (PDF)
+            📥 Download Ticket
           </a>
         </div>
       ` : `
         <div style="display:flex; justify-content:center; margin-top:18px;">
           <a href="${downloadHref}" ${isDownloadable ? 'download' : ''} target="_blank" class="btn-ticket-view" style="padding:12px 32px; font-size:0.95rem; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
-            📥 Download Ticket (PDF)
+            📥 Download Ticket
           </a>
         </div>
       `;
