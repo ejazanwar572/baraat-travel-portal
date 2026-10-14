@@ -1028,7 +1028,7 @@ template = """<!DOCTYPE html>
     <div class="table-toolbar">
       <div class="search-input-box" style="width: 100%;">
         <span class="search-icon">🔍</span>
-        <input type="text" id="filterInput" class="search-input" placeholder="Search by name, coach (C2, C3, M2, B1), seat, or PNR..." oninput="handleFilter()">
+        <input type="text" id="filterInput" class="search-input" placeholder="Search by name, coach (B1, B2, C2, C3, 1A, M3), seat, or PNR..." oninput="handleFilter()">
       </div>
     </div>
 
@@ -1076,8 +1076,8 @@ template = """<!DOCTYPE html>
     const legDetails = {
       'leg1': {
         title: 'Train 12397 / Mahabodhi Express',
-        coaches: ['B1 (9 pax)', 'M2 (18 pax)', 'M3 (3 pax)'],
-        coachFilters: ['All', 'B1', 'M2', 'M3'],
+        coaches: ['B1 (9 pax)', 'B2 (18 pax)', 'M3 (3 pax)'],
+        coachFilters: ['All', 'B1', 'B2', 'M3'],
         paxTotal: '30 Confirmed Berths'
       },
       'leg2': {

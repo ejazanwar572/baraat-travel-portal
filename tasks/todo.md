@@ -1,43 +1,26 @@
-# Tasks: Baraat Travel Portal & Ticket Management
+# Tasks: Wedding Invitation Soft Copy PDF Generation
 
-- [x] Scan local Documents, Downloads, and Desktop directories for all wedding travel tickets
-- [x] Scan Gmail booking confirmations for supplementary tickets and boarding station updates
-- [x] Meticulously extract and cross-verify all passenger rosters, PNRs, coaches, and berth assignments
-- [x] Present discovered ticket inventory to the user for validation and identify any missing tickets
-- [x] Present 2-3 sample website concepts (mobile-first web app with search, journey breakdown, offline access)
-- [x] Await user feedback and approval on implementation plan
-- [x] Build the interactive Travel Hub web application (`baraat_travel_portal.html`)
-- [x] Verify search, filters, mobile responsiveness, and export features
-
-- [x] Update Leg 3 passenger dataset with initial and live Current Status fields and booking references
-- [x] Add dynamic table headers to show "Current Status" column for Rudrapur to Gaya (Leg 3)
-- [x] Implement interactive "Refresh Live Status" button with real-time API fetch and loading indicator
-- [x] Update table row rendering for Leg 3 to show Current Status badges (CNF / GNWL) and booking details
-- [x] Verify UI and functionality in browser with screenshot and live testing
-- [x] Sync changes to both baraat_travel_companion.html and baraat_travel_portal.html
-
-- [x] Remove 'RESERVED COMPARTMENT' text from coach divider rows in table
-- [x] Highlight each Coach No with distinct, vibrant colors (B1, M2, M3, C2, C3, 1A, 3A)
-- [x] Rebuild and verify across all 3 journey tabs with screenshot proof
-
-- [x] Update build_custom_portal.py to point Leg 3 & Leg 2 tickets to official PDF and high-res preview images
-- [x] Update openLiveTicket in make_companion.py to display the visual ticket copy preview and direct PDF download
-- [x] Verify Leg 3 ticket modal in browser with screenshot proof for Md Azad Ahmad (PNR 2623649572)
-- [x] Sync changes to both baraat_travel_companion.html and baraat_travel_portal.html
-
-- [x] Create index.html as an exact mirror of baraat_travel_companion.html
-- [x] Initialize git repo and commit all site assets (index.html, Tickets/, fonts/, favicon.png, manifest.json)
-- [x] Create GitHub remote repository on @ejazanwar572 using gh CLI
-- [x] Configure and enable GitHub Pages on main branch
-- [x] Verify live site deployment and test live URL (https://ejazanwar572.github.io/baraat-travel-portal/)
+- [x] Plan and analyze aesthetic variants preserving card architecture and color palette
+- [x] Process card assets: Segment and remove bedsheet/photo background (outer and lattice cutouts)
+- [x] Variant 1: Pristine Physical-Card Studio Composite (Isolated cards with authentic cutouts & clean luxury backdrop)
+- [x] Variant 2: Elegant Digital Vector Twin (Pixel-perfect digital recreation matching typography, Arabesque calligraphy, jali & florals)
+- [x] Variant 3: Royal WhatsApp Mobile-Spread (Seamless 2-page story / dual-card showcase with gold trim & floral embellishments)
+- [x] Render high-resolution print-quality PDFs using Chrome headless (or vector engine)
+- [x] Generate visual preview images and inspect for fidelity, legibility, and aesthetics
+- [x] Present variants to the user with download links and visual previews
 
 ## Review & Results
-- **Ticket Discovery Complete**: 11 tickets discovered (Gaya ➔ NDLS on Mahabodhi 12397, NDLS ➔ Rudrapur on Shatabdi 12040, and return on Doon Exp 13010).
-- **Interactive App Created & Refined**: Synced across `/Users/ejazanwar/Documents/Ejaz's wedding/baraat_travel_companion.html` and `baraat_travel_portal.html`.
-- **Leg 3 Dynamic Waitlist & Current Status**:
-  - Dynamically displays the **Current Status** column specifically for Rudrapur to Gaya (Train 13010 Doon Express).
-  - Confirmed 1A passengers show `✅ CNF`.
-  - 3A waitlisted passengers show `⏳ GNWL 72–76` along with their live confirmation probability tags (`55%–76% Chance`).
-  - Added dedicated **`🔄 Refresh Live Status`** button with real-time IRCTC API fetch, spinning animation, and automatic timestamping.
-  - Ticket modal shows horizontal layout with booking status vs live status comparison and 1-tap live check button.
+- **Asset Processing Complete**: Cleaned Arabic calligraphy vectors (`بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ` and `دعوتِ ولیمہ`), quatrefoil Moroccan jali patterns, and isolated physical cards with clean cutout linings.
+- **Variant 1 Created (Royal Digital Masterpiece)**:
+  - 2-Page high-resolution PDF (`Variant_1_Royal_Digital_Masterpiece.pdf`).
+  - Page 1: Reception Ceremony on warm ivory with Bismillah, Anwar Family, and Ejaz & Iqura in flowing cursive calligraphy flanked by laser-cut Moroccan jali wings.
+  - Page 2: Programme on soft pastel sage green with Daawat-e-Walima, Milad-un-Nabi, Rasm-e-Manjha, Walima box, Hotel Palm Garden Gaya venue block, WBCF, and RSVP.
+- **Variant 2 Created (Studio Physical Keepsake Folio)**:
+  - High-res PDF (`Variant_2_Studio_Physical_Composite.pdf`).
+  - Open wedding card folio spread (`Variant_2_Spread_Preview.png`) and 2-page portrait presentation. Removes all bedsheet fabric, fills laser-cut holes with ivory paper, and mounts both physical cards with realistic soft drop shadow.
+- **Variant 3 Created (Royal WhatsApp Mobile Duo)**:
+  - Mobile-first PDF (`Variant_3_Royal_WhatsApp_Duo.pdf`) and preview (`Variant_3_Mobile_Preview.png`).
+  - Both cards unified in a seamless vertical scroll with gold foil dividers, high mobile contrast, and easy smartphone readability.
+- **Distribution**: All PDFs and PNG previews are generated in `/Users/ejazanwar/Documents/Ejaz's wedding/invitation_variants/` and also copied directly to `/Users/ejazanwar/Downloads/`.
+
 
